@@ -5,6 +5,10 @@
 #include "letras.h"
 #include "presentacion.h"
 #include "pieza.h"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 int main()
 {
 

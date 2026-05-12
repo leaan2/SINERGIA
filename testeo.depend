@@ -107,6 +107,7 @@
 
 1777480226 c:\users\lean\desktop\testeo\juego.h
 
+<<<<<<< HEAD
 1778267955 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\graficos.c
 	<stdio.h>
 	"graficos.h"
@@ -116,6 +117,14 @@
 	"GBT/gbt.h"
 	"pieza.h"
 	"presentacion.h"
+=======
+1777479222 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\graficos.c
+	<stdio.h>
+	"graficos.h"
+
+1778254978 c:\users\lean\desktop\tetris\dev_leandro\sinergia\graficos.h
+	"GBT/gbt.h"
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 
 1777480585 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\juego.c
 	<stdio.h>
@@ -124,11 +133,16 @@
 	"graficos.h"
 	"GBT/gbt.h"
 
+<<<<<<< HEAD
 1778267094 c:\users\lean\desktop\tetris\dev_leandro\sinergia\presentacion.h
+=======
+1777479118 c:\users\lean\desktop\tetris\dev_leandro\sinergia\presentacion.h
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 	"graficos.h"
 	"letras.h"
 	"GBT/gbt.h"
 
+<<<<<<< HEAD
 1778267621 c:\users\lean\desktop\tetris\dev_leandro\sinergia\letras.h
 
 1777480226 c:\users\lean\desktop\tetris\dev_leandro\sinergia\juego.h
@@ -137,6 +151,16 @@
 	"graficos.h"
 
 1778263814 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\main.c
+=======
+1777479044 c:\users\lean\desktop\tetris\dev_leandro\sinergia\letras.h
+
+1777480226 c:\users\lean\desktop\tetris\dev_leandro\sinergia\juego.h
+
+1777479043 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\letras.c
+	"graficos.h"
+
+1778254961 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\main.c
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 	<stdio.h>
 	<stdlib.h>
 	"graficos.h"
@@ -145,7 +169,11 @@
 	"presentacion.h"
 	"pieza.h"
 
+<<<<<<< HEAD
 1778265007 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\presentacion.c
+=======
+1778254989 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\presentacion.c
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 	<stdio.h>
 	<stdlib.h>
 	"presentacion.h"
@@ -174,15 +202,28 @@
 	<stdlib.h>
 	<stdint.h>
 
+<<<<<<< HEAD
 1778354312 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\pieza.c
+=======
+1778254652 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\pieza.c
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 	"pieza.h"
 	<stdio.h>
 	<stdlib.h>
 	"GBT/gbt.h"
 	<time.h>
+<<<<<<< HEAD
 	"graficos.h"
 
 1778357909 c:\users\lean\desktop\tetris\dev_leandro\sinergia\pieza.h
 	<stdint.h>
 	<time.h>
+=======
+
+1778255342 c:\users\lean\desktop\tetris\dev_leandro\sinergia\pieza.h
+	<stdint.h>
+	<time.h>
+	"graficos.h"
+	"letras.h"
+>>>>>>> 653e12d60e2814431c2079275c60097e78d69b54
 
