@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "presentacion.h"
 #include "GBT/gbt.h"
-
+#include "pieza.h"
 void dibujar_letra(char c, int x, int y);
 void dibujarPantalla ();
 int Presentacion(char nombre[]);

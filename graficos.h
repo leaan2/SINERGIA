@@ -3,9 +3,6 @@
 #include "GBT/gbt.h"
 #define CANT_COLORES 16
 #define MAX_NOMBRE 7
-#define ANCHO_VENTANA 320
-#define ALTO_VENTANA 200
-#define ESCALA_VENTANA 3
 
 extern tGBT_ColorRGB paletaCGA[CANT_COLORES];
 typedef enum
