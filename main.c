@@ -4,7 +4,7 @@
 #include "GBT/gbt.h"
 #include "letras.h"
 #include "presentacion.h"
-#include "juego.h"
+#include "pieza.h"
 int main()
 {
 
@@ -17,10 +17,8 @@ int main()
         fprintf(stderr, "Error: %s\n", gbt_obtener_log());
         return -1;
     }
-    char nombre[MAX_NOMBRE] = "";
-    int longitud = Presentacion(nombre);
 
-    juego_loop();
+    juego();
     gbt_destruir_ventana();
     gbt_cerrar();
     return 0;

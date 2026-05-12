@@ -3,6 +3,7 @@
 #include "graficos.h"
 #include "letras.h"
 #include "GBT/gbt.h"
+#define MAX_NOMBRE 7
 
 void dibujar_letra(char c, int x, int y);
 void dibujarPantalla ();
