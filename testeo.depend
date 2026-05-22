@@ -1,0 +1,414 @@
+# depslib dependency file v1.0
+1777083432 source:c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\main.c
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+
+1776657798 c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1776657798 c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\\gbt\gbt_entrada.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\\gbt\gbt_graficos.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\\gbt\gbt_logger.h
+
+1776657798 c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\facultad\topicos de programacion\trabajo practico topicos\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1777480455 source:c:\users\lean\desktop\testeo\main.c
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+	"GBT/gbt.h"
+	"letras.h"
+	"presentacion.h"
+	"juego.h"
+
+1776657798 c:\users\lean\desktop\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1776657798 c:\users\lean\desktop\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1776657798 c:\users\lean\desktop\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\testeo\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1777480531 c:\users\lean\desktop\testeo\graficos.h
+	"GBT/gbt.h"
+
+1777240883 c:\users\lean\desktop\testeo\test.h
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+
+1777300083 source:c:\users\lean\desktop\testeo\prueba.c
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+	"GBT/gbt.h"
+
+1777479222 source:c:\users\lean\desktop\testeo\graficos.c
+	<stdio.h>
+	"graficos.h"
+
+1777479043 source:c:\users\lean\desktop\testeo\letras.c
+	"graficos.h"
+
+1777479044 c:\users\lean\desktop\testeo\letras.h
+
+1777404595 source:c:\users\lean\desktop\testeo\user.c
+	"graficos.h"
+	"letras.h"
+
+1777404595 c:\users\lean\desktop\testeo\user.h
+	"graficos.h"
+
+1777479118 c:\users\lean\desktop\testeo\presentacion.h
+	"graficos.h"
+	"letras.h"
+	"GBT/gbt.h"
+
+1777483484 source:c:\users\lean\desktop\testeo\presentacion.c
+	<stdio.h>
+	<stdlib.h>
+	"presentacion.h"
+	"GBT/gbt.h"
+
+1777480585 source:c:\users\lean\desktop\testeo\juego.c
+	<stdio.h>
+	"presentacion.h"
+	"juego.h"
+	"graficos.h"
+	"GBT/gbt.h"
+
+1777480226 c:\users\lean\desktop\testeo\juego.h
+
+1778254652 D
+	"graficos.h"
+
+1777479222 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\graficos.c
+	<stdio.h>
+	"graficos.h"
+	"pieza.h"
+	<stdio.h>
+	"graficos.h"
+
+1778254978 c:\users\lean\desktop\tetris\dev_leandro\sinergia\graficos.h
+	"GBT/gbt.h"
+	"pieza.h"
+	"presentacion.h"
+	"GBT/gbt.h"
+
+1778266983 ion.h"
+
+1778255342 e12d60e2814431c2079275c60097e78d69b54
+	"graficos.h"
+	"letras.h"
+	"GBT/gbt.h"
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+	"GBT/gbt.h"
+	"letras.h"
+	"presentacion.h"
+	"pieza.h"
+	<stdio.h>
+	<stdlib.h>
+	"presentacion.h"
+	"GBT/gbt.h"
+	"pieza.h"
+	"pieza.h"
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+	<time.h>
+
+1777480585 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\juego.c
+	<stdio.h>
+	"presentacion.h"
+	"juego.h"
+	"graficos.h"
+	"GBT/gbt.h"
+
+1777479118 c:\users\lean\desktop\tetris\dev_leandro\sinergia\presentacion.h
+
+1777479044 c:\users\lean\desktop\tetris\dev_leandro\sinergia\letras.h
+
+1777480226 c:\users\lean\desktop\tetris\dev_leandro\sinergia\juego.h
+
+1777479043 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\letras.c
+	"graficos.h"
+	"graficos.h"
+
+1778254961 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\main.c
+
+1778254989 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\presentacion.c
+
+1776657798 c:\users\lean\desktop\tetris\dev_leandro\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1776657798 c:\users\lean\desktop\tetris\dev_leandro\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\tetris\dev_leandro\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\tetris\dev_leandro\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1776657798 c:\users\lean\desktop\tetris\dev_leandro\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1776657798 c:\users\lean\desktop\tetris\dev_leandro\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1778254652 source:c:\users\lean\desktop\tetris\dev_leandro\sinergia\pieza.c
+
+1778255342 c:\users\lean\desktop\tetris\dev_leandro\sinergia\pieza.h
+	<stdint.h>
+	<time.h>
+	<stdint.h>
+	<time.h>
+	"graficos.h"
+	"letras.h"
+
+1778357909 
+
+1778601036 source:c:\users\lean\desktop\sinergia-main\graficos.c
+	<stdio.h>
+	"graficos.h"
+	"pieza.h"
+
+1779420396 c:\users\lean\desktop\sinergia-main\graficos.h
+	"GBT/gbt.h"
+	"pieza.h"
+	"presentacion.h"
+
+1778601036 c:\users\lean\desktop\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1778601036 c:\users\lean\desktop\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1778601036 c:\users\lean\desktop\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1778601036 c:\users\lean\desktop\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1778601036 c:\users\lean\desktop\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1778601036 c:\users\lean\desktop\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1779420396 c:\users\lean\desktop\sinergia-main\pieza.h
+	<stdint.h>
+	<time.h>
+
+1778601036 c:\users\lean\desktop\sinergia-main\letras.h
+
+1779420164 c:\users\lean\desktop\sinergia-main\presentacion.h
+	"graficos.h"
+	"letras.h"
+	"GBT/gbt.h"
+
+1778601036 source:c:\users\lean\desktop\sinergia-main\letras.c
+	"graficos.h"
+
+1779420396 source:c:\users\lean\desktop\sinergia-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+	"GBT/gbt.h"
+	"letras.h"
+	"presentacion.h"
+	"pieza.h"
+
+1778601036 source:c:\users\lean\desktop\sinergia-main\pieza.c
+	"pieza.h"
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+	<time.h>
+	"graficos.h"
+
+1779420440 source:c:\users\lean\desktop\sinergia-main\presentacion.c
+	<stdio.h>
+	<stdlib.h>
+	"presentacion.h"
+	"GBT/gbt.h"
+	"pieza.h"
+
+1778601036 source:c:\users\thiag\desktop\empezaracomit123\sinergia-main\graficos.c
+	<stdio.h>
+	"graficos.h"
+	"pieza.h"
+
+1779420396 c:\users\thiag\desktop\empezaracomit123\sinergia-main\graficos.h
+	"GBT/gbt.h"
+	"pieza.h"
+	"presentacion.h"
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1779420396 c:\users\thiag\desktop\empezaracomit123\sinergia-main\pieza.h
+	<stdint.h>
+	<time.h>
+
+1779420164 c:\users\thiag\desktop\empezaracomit123\sinergia-main\presentacion.h
+	"graficos.h"
+	"letras.h"
+	"GBT/gbt.h"
+
+1778601036 c:\users\thiag\desktop\empezaracomit123\sinergia-main\letras.h
+
+1778601036 source:c:\users\thiag\desktop\empezaracomit123\sinergia-main\letras.c
+	"graficos.h"
+
+1779420396 source:c:\users\thiag\desktop\empezaracomit123\sinergia-main\main.c
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+	"GBT/gbt.h"
+	"letras.h"
+	"presentacion.h"
+	"pieza.h"
+
+1779420452 source:c:\users\thiag\desktop\empezaracomit123\sinergia-main\pieza.c
+	"pieza.h"
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+	<time.h>
+	"graficos.h"
+
+1779420440 source:c:\users\thiag\desktop\empezaracomit123\sinergia-main\presentacion.c
+	<stdio.h>
+	<stdlib.h>
+	"presentacion.h"
+	"GBT/gbt.h"
+	"pieza.h"
+
+1778601036 source:c:\users\thiag\desktop\sinerg\sinergia\graficos.c
+	<stdio.h>
+	"graficos.h"
+	"pieza.h"
+
+1779420396 c:\users\thiag\desktop\sinerg\sinergia\graficos.h
+	"GBT/gbt.h"
+	"pieza.h"
+	"presentacion.h"
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1779420396 c:\users\thiag\desktop\sinerg\sinergia\pieza.h
+	<stdint.h>
+	<time.h>
+
+1779420164 c:\users\thiag\desktop\sinerg\sinergia\presentacion.h
+	"graficos.h"
+	"letras.h"
+	"GBT/gbt.h"
+
+1778601036 c:\users\thiag\desktop\sinerg\sinergia\letras.h
+
+1778601036 source:c:\users\thiag\desktop\sinerg\sinergia\letras.c
+	"graficos.h"
+
+1779420396 source:c:\users\thiag\desktop\sinerg\sinergia\main.c
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+	"GBT/gbt.h"
+	"letras.h"
+	"presentacion.h"
+	"pieza.h"
+
+1779420452 source:c:\users\thiag\desktop\sinerg\sinergia\pieza.c
+	"pieza.h"
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+	<time.h>
+	"graficos.h"
+
+1779420440 source:c:\users\thiag\desktop\sinerg\sinergia\presentacion.c
+	<stdio.h>
+	<stdlib.h>
+	"presentacion.h"
+	"GBT/gbt.h"
+	"pieza.h"
+
