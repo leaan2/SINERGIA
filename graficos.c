@@ -81,7 +81,7 @@ void dibujar_linea(int x, int y, int h ,int color)
     }
 }
 
-void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nombre[], int longitud, int puntaje)
+void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nombre[], int longitud, int puntaje, int paleta_tipo)
 {
         int offsetX = (ANCHO_VENTANA - (ANCHO_T * TAM_BLOQUE)) / 2;
         int offsetY = (ALTO_VENTANA - (ALTO_T * TAM_BLOQUE)) / 2;
@@ -90,10 +90,9 @@ void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nom
         dibujar_linea(offsetX-1, 0, 200, 4);
         dibujar_linea((offsetX + (ANCHO_T * TAM_BLOQUE)) , 0,200,4);
         dibujar_linea((offsetX + (ANCHO_T * TAM_BLOQUE))+1, 0,200,4);
-        dibujarTablero(tablero, offsetX, offsetY);
-        dibujarPieza(pieza,
-                         offsetX + columna * TAM_BLOQUE,
-                         offsetY + fila * TAM_BLOQUE);
+        dibujarTablero(tablero, offsetX, offsetY, paleta_tipo);
+        dibujarPieza(pieza, offsetX + columna * TAM_BLOQUE, offsetY + fila * TAM_BLOQUE, paleta_tipo);
+
 
         int x = 2;
         int y = 2;
@@ -157,4 +156,26 @@ void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nom
         dibujar_matriz(x+24, y, 8, 8, numeros[uno], 4);
 
 
+}
+
+void guardar_configuracion(Configuracion *config) {
+    FILE *archivo = fopen("config.dat", "wb");
+    if (archivo != NULL) {
+        fwrite(config, sizeof(Configuracion), 1, archivo);
+        fclose(archivo);
+    }
+}
+
+void cargar_configuracion(Configuracion *config) {
+    FILE *archivo = fopen("config.dat", "rb");
+    if (archivo != NULL) {
+        fread(config, sizeof(Configuracion), 1, archivo);
+        fclose(archivo);
+    } else {
+        // Valores por defecto iniciales si el jugador abre el juego por primera vez
+        config->paleta_tipo = 0;
+        config->resolucion_tipo = 0;
+        config->velocidad_init = 0.5;
+        guardar_configuracion(config);
+    }
 }
