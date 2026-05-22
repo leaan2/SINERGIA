@@ -4,8 +4,6 @@
 #define CANT_COLORES 16
 #include "pieza.h"
 #include "presentacion.h"
-#define MAX_NOMBRE 7
-
 
 extern tGBT_ColorRGB paletaCGA[CANT_COLORES];
 typedef enum
@@ -27,7 +25,7 @@ void dibujarBorde(int x, int y, int w, int h, int color);
 void dibujarFondo();
 void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], int color);
 void dibujar_linea(int x, int y, int h ,int color);
-void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nombre[], int longitud, int puntaje, int paleta_tipo);
+void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nombre[], int longitud, int puntaje, int paleta_tipo, int ancho_ventana, int alto_ventana);
 void guardar_configuracion(Configuracion *config);
 void cargar_configuracion(Configuracion *config);
 #endif // GRAFICOS_H_INCLUDED

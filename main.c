@@ -8,13 +8,11 @@
 #include "presentacion.h"
 #include "pieza.h"
 
-
 int main(int argc, char *argv[])
-
 {
-    int ancho = 320;
-    int alto = 200;
-    int escala = 3;
+    int ancho = ANCHO_VENTANA;
+    int alto = ALTO_VENTANA;
+    int escala = ESCALA_VENTANA;
 
     // =========================
     // ARGUMENTO 1 -> RESOLUCION
