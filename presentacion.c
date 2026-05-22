@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "presentacion.h"
 #include "GBT/gbt.h"
-
+#include "pieza.h"
 void dibujar_letra(char c, int x, int y);
 void dibujarPantalla ();
 int Presentacion(char nombre[]);
@@ -172,7 +172,11 @@ int Presentacion(char nombre [])
         gbt_temporizador_destruir(temporizador);
         return longitud;
     }
-
+ void dibujar_texto(const char *texto, int x, int y) {
+    for (int i = 0; texto[i] != '\0'; i++) {
+        dibujar_letra(texto[i], x + (i * 8), y); // Tus letras tienen 8 de ancho
+    }
+}
 
 
 

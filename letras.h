@@ -36,9 +36,21 @@ extern int letra_W[8][8];
 extern int letra_X[8][8];
 extern int letra_Y[8][8];
 extern int letra_Z[8][8];
+// NUMEROS EN 8X8
 
+extern int numero_0[8][8];
+extern int numero_1[8][8];
+extern int numero_2[8][8];
+extern int numero_3[8][8];
+extern int numero_4[8][8];
+extern int numero_5[8][8];
+extern int numero_6[8][8];
+extern int numero_7[8][8];
+extern int numero_8[8][8];
+extern int numero_9[8][8];
 // S�mbolos en 8x8
 extern int letra_signopuntuacion[8][8];
 extern int letra_guionbajo[8][8];
+
 
 #endif // LETRAS_H_INCLUDED
