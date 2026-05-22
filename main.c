@@ -8,7 +8,9 @@
 #include "presentacion.h"
 #include "pieza.h"
 
+
 int main(int argc, char *argv[])
+
 {
     int ancho = 320;
     int alto = 200;

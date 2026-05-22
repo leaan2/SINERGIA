@@ -4,6 +4,8 @@
 #define CANT_COLORES 16
 #include "pieza.h"
 #include "presentacion.h"
+#define MAX_NOMBRE 7
+
 
 extern tGBT_ColorRGB paletaCGA[CANT_COLORES];
 typedef enum

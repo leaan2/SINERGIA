@@ -256,46 +256,6 @@ void dibujarBloque(int x, int y, uint8_t color_original, int paleta_tipo)
 }
 
 
-/*
-    if (color_original != 0) { // Si no es un bloque vacío (fondo)
-        switch (paleta_tipo)
-        {
-            case 1:
-                // === PALETA 1: MODO GAMEBOY MONOCROMÁTICO ===
-                // Forzamos a que todas las piezas usen tonos verdes retro de la CGA (color 2 o 10)
-                color_final = 2;
-                break;
-
-            case 2:
-                // === PALETA 2: MODO NEÓN APOCALÍPTICO / FLÚOR ===
-                // Mapeamos los colores originales a sus versiones intensas/brillantes de la CGA
-                if (color_original == 1)  color_final = 9;  // Azul claro brillante
-                if (color_original == 4)  color_final = 12; // Rojo claro brillante
-                if (color_original == 5)  color_final = 13; // Magenta brillante
-                if (color_original == 3)  color_final = 11; // Cyan brillante
-                if (color_original == 14) color_final = 14; // Amarillo (ya es brillante)
-                if (color_original == 7)  color_final = 15; // Blanco puro
-                if (color_original == 12) color_final = 10; // Verde brillante
-                break;
-
-            case 0:
-            default:
-                // === PALETA 0: CLÁSICA ===
-                // Mantiene los colores originales tal cual están definidos en tus structs
-                color_final = color_original;
-                break;
-        }
-    }
-
-    // Dibujamos el bloque con el color adaptado
-    for(int i = 0; i < TAM_BLOQUE; i++)
-        for(int j = 0; j < TAM_BLOQUE; j++)
-            gbt_dibujar_pixel(x + j, y + i, color_final);
-       
-            }
-            */
-
-
 // Actualizamos dibujarPieza para que reciba la paleta y se la pase a dibujarBloque
 void dibujarPieza(Pieza p, int posX, int posY, int paleta_tipo)
 {

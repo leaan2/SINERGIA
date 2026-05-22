@@ -85,7 +85,6 @@ void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nom
 {
         int offsetX = (ANCHO_VENTANA - (ANCHO_T * TAM_BLOQUE)) / 2;
         int offsetY = (ALTO_VENTANA - (ALTO_T * TAM_BLOQUE)) / 2;
-
         dibujarFondo(9);
         dibujar_linea(offsetX-2, 0, 200, 4);
         dibujar_linea(offsetX-1, 0, 200, 4);
@@ -93,6 +92,7 @@ void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nom
         dibujar_linea((offsetX + (ANCHO_T * TAM_BLOQUE))+1, 0,200,4);
         dibujarTablero(tablero, offsetX, offsetY, paleta_tipo);
         dibujarPieza(pieza, offsetX + columna * TAM_BLOQUE, offsetY + fila * TAM_BLOQUE, paleta_tipo);
+
 
         int x = 2;
         int y = 2;
@@ -157,6 +157,7 @@ void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nom
 
 
 }
+
 void guardar_configuracion(Configuracion *config) {
     FILE *archivo = fopen("config.dat", "wb");
     if (archivo != NULL) {
