@@ -22,6 +22,14 @@ void dibujarPantalla(int ancho_p, int alto_p) {
     int caja_x = (ancho_p - caja_w) / 2;
     int caja_y = (alto_p - caja_h) / 2;
 
+    // 1. Calculamos el tamaño del contenedor principal proporcionalmente
+    int caja_w = (ancho_p * 62) / 100; 
+    int caja_h = (alto_p * 60) / 100; 
+
+    // Centramos la caja principal en la pantalla actual
+    int caja_x = (ancho_p - caja_w) / 2;
+    int caja_y = (alto_p - caja_h) / 2;
+
     // rectángulo azul principal
     Dibujar_rect(caja_x, caja_y, caja_w, caja_h, 9); // azul
 

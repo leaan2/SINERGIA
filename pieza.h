@@ -51,6 +51,8 @@ int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida);
 
 void juego(int escala_ventana, int resolucion_inicial);
 
+void registrar_en_ranking(const char* nombre, int puntaje);
+
 
 
 void registrar_en_ranking(const char* nombre, int puntaje);
