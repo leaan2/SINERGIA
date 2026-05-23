@@ -357,16 +357,63 @@ int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida)
     return puntaje;
 }
 
+static void obtener_resolucion_config(const Configuracion *config, int *ancho, int *alto)
+{
+    if(config->resolucion_tipo == 0)
+    {
+        *ancho = 320;
+        *alto = 200;
+    }
+    else
+    {
+        *ancho = 640;
+        *alto = 480;
+    }
+}
+
+static void aplicar_resolucion_config(const Configuracion *config, int escala_ventana)
+{
+    int ancho = 0;
+    int alto = 0;
+
+    obtener_resolucion_config(config, &ancho, &alto);
+
+    gbt_destruir_ventana();
+
+    if(gbt_crear_ventana("Tetris", ancho, alto, escala_ventana) != 0)
+    {
+        fprintf(stderr, "Error cambiando resolucion: %s\n", gbt_obtener_log());
+        return;
+    }
+
+    configurar_limites_dibujo(ancho, alto);
+
+    if(gbt_aplicar_paleta(paletaCGA, CANT_COLORES, GBT_FORMATO_888) != 0)
+    {
+        fprintf(stderr, "Error reaplicando paleta: %s\n", gbt_obtener_log());
+    }
+}
+
 // --- Bucle Principal del Juego ---
 
-void juego()
+void juego(int escala_ventana, int resolucion_inicial)
 {
-    char nombre[MAX_NOMBRE] = "";
-    int longitud = Presentacion(nombre);
-
     // --- CARGAR CONFIGURACIÓN DESDE ARCHIVO ---
     Configuracion config;
     cargar_configuracion(&config);
+
+    if(resolucion_inicial >= 0)
+    {
+        config.resolucion_tipo = resolucion_inicial;
+        guardar_configuracion(&config);
+    }
+
+    int ancho_presentacion = 0;
+    int alto_presentacion = 0;
+    obtener_resolucion_config(&config, &ancho_presentacion, &alto_presentacion);
+
+    char nombre[MAX_NOMBRE] = "";
+    int longitud = Presentacion(nombre, ancho_presentacion, alto_presentacion);
 
     EstadoJuego estadoActual = estado_menu;
     EstadoJuego estadoAnteriorRanking = estado_menu;
@@ -406,8 +453,9 @@ void juego()
         gbt_borrar_backbuffer(9);
 
         // --- ADAPTACIÓN DINÁMICA DE RESOLUCIÓN ---
-        int ancho_pantalla = ANCHO_VENTANA;
-        int alto_pantalla = ALTO_VENTANA;
+        int ancho_pantalla = 0;
+        int alto_pantalla = 0;
+        obtener_resolucion_config(&config, &ancho_pantalla, &alto_pantalla);
 
         switch(estadoActual)
         {
@@ -425,6 +473,8 @@ void juego()
                     }
                     else if(opcion_seleccionada == 1) { // Cambiar Resolución en el Menú
                         config.resolucion_tipo = (config.resolucion_tipo + dir + 2) % 2;
+                        aplicar_resolucion_config(&config, escala_ventana);
+                        obtener_resolucion_config(&config, &ancho_pantalla, &alto_pantalla);
 
                         printf("Resolucion logica seteada en: %s\n",
                                 (config.resolucion_tipo == 1) ? "VGA (640x480)" : "CGA (320x200)");
@@ -460,14 +510,15 @@ void juego()
 
                 // Fila 5: SALIR
 
-                int menu_panel_w = 280;
-                int menu_panel_h = 285;
+                int menu_compacto = (alto_pantalla <= 240);
+                int menu_panel_w = menu_compacto ? 240 : 280;
+                int menu_panel_h = menu_compacto ? 180 : 285;
                 int menu_panel_x = menu_centro_x - menu_panel_w / 2;
                 int menu_panel_y = (alto_pantalla - menu_panel_h) / 2;
-                int menu_fila_y = menu_panel_y + 78;
-                int menu_fila_espacio = 30;
-                int menu_texto_x = menu_panel_x + 54;
-                int menu_valor_x = menu_panel_x + 190;
+                int menu_fila_y = menu_panel_y + (menu_compacto ? 50 : 78);
+                int menu_fila_espacio = menu_compacto ? 20 : 30;
+                int menu_texto_x = menu_panel_x + (menu_compacto ? 44 : 54);
+                int menu_valor_x = menu_panel_x + (menu_compacto ? 155 : 190);
 
                 Dibujar_rect(menu_panel_x, menu_panel_y, menu_panel_w, menu_panel_h, 0);
                 dibujarBorde(menu_panel_x, menu_panel_y, menu_panel_w, menu_panel_h, 14);
@@ -475,7 +526,7 @@ void juego()
                 Dibujar_rect(menu_panel_x + 8, menu_panel_y + menu_panel_h - 10, menu_panel_w - 16, 2, 8);
 
                 int menu_titulo_x = menu_centro_x - 27;
-                int menu_titulo_y = menu_panel_y + 18;
+                int menu_titulo_y = menu_panel_y + (menu_compacto ? 14 : 18);
                 dibujar_matriz(menu_titulo_x + 0,  menu_titulo_y, 16, 8, letra_T_16, 4);
                 dibujar_matriz(menu_titulo_x + 9,  menu_titulo_y, 16, 8, letra_E_16, 4);
                 dibujar_matriz(menu_titulo_x + 18, menu_titulo_y, 16, 8, letra_T_16, 4);
@@ -747,6 +798,8 @@ void juego()
                     else if(opcion_configuracion == 1)
                     {
                         config.resolucion_tipo = (config.resolucion_tipo + dir + 2) % 2;
+                        aplicar_resolucion_config(&config, escala_ventana);
+                        obtener_resolucion_config(&config, &ancho_pantalla, &alto_pantalla);
                     }
                     else if(opcion_configuracion == 2)
                     {
@@ -835,99 +888,115 @@ void juego()
                 break;
             }
             case estado_ranking:
-
-            dibujarInterfaz(tablero, piezaOrig, fila, columna,
-                            nombre, longitud, puntaje,
-                            config.paleta_tipo,
-                            ancho_pantalla, alto_pantalla);
-
-            int rx = 120;
-            int ry = 60;
-            int rw = 400;
-            int rh = 300;
-
-            Dibujar_rect(rx, ry, rw, rh, 0);
-            dibujarBorde(rx, ry, rw, rh, 14);
-
-            char titulo_rank[] = "RANKING";
-
-            for(int i = 0; titulo_rank[i] != '\0'; i++)
             {
-                dibujar_letra(titulo_rank[i],
-                               rx + 140 + i * 8,
-                               ry + 10,
-                               14);
-            }
+                dibujarInterfaz(tablero, piezaOrig, fila, columna,
+                                nombre, longitud, puntaje,
+                                config.paleta_tipo,
+                                ancho_pantalla, alto_pantalla);
 
-            FILE *f_rank = fopen("ranking.dat", "rb");
+                int ranking_compacto = (ancho_pantalla <= 360 || alto_pantalla <= 240);
+                int margen = ranking_compacto ? 12 : 0;
+                int rw = ranking_compacto ? ancho_pantalla - margen * 2 : 400;
+                int rh = ranking_compacto ? alto_pantalla - margen * 2 : 300;
+                int rx = ranking_compacto ? (ancho_pantalla - rw) / 2 : 120;
+                int ry = ranking_compacto ? (alto_pantalla - rh) / 2 : 60;
+                int titulo_y = ry + (ranking_compacto ? 8 : 10);
+                int fila_y = ry + (ranking_compacto ? 38 : 50);
+                int fila_espacio = ranking_compacto ? 24 : 30;
+                int puesto_x = rx + (ranking_compacto ? 18 : 30);
+                int nombre_x = rx + (ranking_compacto ? 44 : 60);
+                int puntaje_x = ranking_compacto ? rx + rw - 70 : rx + 250;
 
-            if(f_rank != NULL)
-            {
-                RegistroRanking lista[100];
-                int total = 0;
+                Dibujar_rect(rx, ry, rw, rh, 0);
+                dibujarBorde(rx, ry, rw, rh, 14);
 
-                while(fread(&lista[total],
-                             sizeof(RegistroRanking),
-                             1,
-                             f_rank) == 1
-                      && total < 100)
+                char titulo_rank[] = "RANKING";
+                int titulo_x = rx + (rw - 56) / 2;
+
+                for(int i = 0; titulo_rank[i] != '\0'; i++)
                 {
-                    total++;
+                    dibujar_letra(titulo_rank[i],
+                                   titulo_x + i * 8,
+                                   titulo_y,
+                                   14);
                 }
 
-                fclose(f_rank);
+                FILE *f_rank = fopen("ranking.dat", "rb");
 
-                // ORDENAR
-                for(int i = 0; i < total - 1; i++)
+                if(f_rank != NULL)
                 {
-                    for(int j = 0; j < total - i - 1; j++)
+                    RegistroRanking lista[100];
+                    int total = 0;
+
+                    while(total < 100 &&
+                          fread(&lista[total],
+                                sizeof(RegistroRanking),
+                                1,
+                                f_rank) == 1)
                     {
-                        if(lista[j].puntaje < lista[j + 1].puntaje)
+                        lista[total].nombre[MAX_NOMBRE - 1] = '\0';
+                        total++;
+                    }
+
+                    fclose(f_rank);
+
+                    // ORDENAR
+                    for(int i = 0; i < total - 1; i++)
+                    {
+                        for(int j = 0; j < total - i - 1; j++)
                         {
-                            RegistroRanking aux = lista[j];
-                            lista[j] = lista[j + 1];
-                            lista[j + 1] = aux;
+                            if(lista[j].puntaje < lista[j + 1].puntaje)
+                            {
+                                RegistroRanking aux = lista[j];
+                                lista[j] = lista[j + 1];
+                                lista[j + 1] = aux;
+                            }
+                        }
+                    }
+
+                    int max_nombre_chars = (puntaje_x - nombre_x - 8) / 8;
+                    if(max_nombre_chars > MAX_NOMBRE - 1)
+                        max_nombre_chars = MAX_NOMBRE - 1;
+                    if(max_nombre_chars < 0)
+                        max_nombre_chars = 0;
+
+                    for(int i = 0; i < total && i < 5; i++)
+                    {
+                        int y = fila_y + fila_espacio * i;
+                        char puesto = '1' + i;
+
+                        dibujar_letra(puesto, puesto_x, y, 14);
+
+                        for(int n = 0;
+                            lista[i].nombre[n] != '\0' && n < max_nombre_chars;
+                            n++)
+                        {
+                            dibujar_letra(lista[i].nombre[n],
+                                           nombre_x + n * 8,
+                                           y,
+                                           7);
+                        }
+
+                        char puntaje_texto[12];
+                        snprintf(puntaje_texto, sizeof(puntaje_texto), "%d", lista[i].puntaje);
+
+                        for(int n = 0; puntaje_texto[n] != '\0'; n++)
+                        {
+                            dibujar_letra(puntaje_texto[n],
+                                           puntaje_x + n * 8,
+                                           y,
+                                           12);
                         }
                     }
                 }
 
-                int y = ry + 50;
-
-                for(int i = 0; i < total && i < 5; i++)
+                if(tecla == GBTK_ESCAPE)
                 {
-                    char puesto = '1' + i;
-
-                    dibujar_letra(puesto, rx + 30, y, 14);
-
-                    for(int n = 0;
-                        lista[i].nombre[n] != '\0';
-                        n++)
-                    {
-                        dibujar_letra(lista[i].nombre[n],
-                                       rx + 60 + n * 8,
-                                       y,
-                                       7);
-                    }
-
-                    int scorex = rx + 250;
-
-                    int p = lista[i].puntaje;
-
-                    dibujar_letra('0' + ((p/1000)%10), scorex, y, 12);
-                    dibujar_letra('0' + ((p/100)%10), scorex+8, y, 12);
-                    dibujar_letra('0' + ((p/10)%10), scorex+16, y, 12);
-                    dibujar_letra('0' + (p%10), scorex+24, y, 12);
-
-                    y += 30;
+                    estadoActual = estadoAnteriorRanking;
                 }
-            }
 
-            if(tecla == GBTK_ESCAPE)
-            {
-                estadoActual = estadoAnteriorRanking;
+                break;
             }
-
-    break;
            case estado_gameover:
                 dibujarInterfaz(tablero, piezaOrig, fila, columna,
                                 nombre, longitud, puntaje,
@@ -967,7 +1036,7 @@ void juego()
 
                 for(int i = 0; puntaje_numero[i] != '\0'; i++)
                 {
-                    dibujar_letra(puntaje_numero[i], go_panel_x + 125 + i * 8, go_panel_y + 72, 15);
+                    dibujar_letra(puntaje_numero[i], go_panel_x + 125 + i * 8, go_panel_y + 72, 7);
                 }
 
                 for(int i = 0; volver_texto[i] != '\0'; i++)

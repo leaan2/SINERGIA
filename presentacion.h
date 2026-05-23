@@ -11,8 +11,8 @@ typedef struct {
     int velocidad_inicial;// 1: Facil, 2: Normal, 3: Dificil (afecta el delay de caida)
 } ConfigurarJuego;
 void dibujar_letra(char c, int x, int y, int color);
-void dibujarPantalla ();
-int Presentacion(char nombre[]);
+void dibujarPantalla (int ancho_p, int alto_p);
+int Presentacion(char nombre[], int ancho_pantalla, int alto_pantalla);
 
 
 

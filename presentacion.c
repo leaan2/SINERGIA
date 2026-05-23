@@ -6,17 +6,17 @@
 
 void dibujar_letra(char c, int x, int y, int color);
 void dibujarPantalla (int ancho_p, int alto_p);
-int Presentacion(char nombre[]);
+int Presentacion(char nombre[], int ancho_pantalla, int alto_pantalla);
 void dibujar_texto(const char *texto, int x, int y, int color);
 
 // --- RECIBE EL ANCHO Y ALTO DINÁMICOS ---
 void dibujarPantalla(int ancho_p, int alto_p) {
     // fondo
-    dibujarFondo();
+    Dibujar_rect(0, 0, ancho_p, alto_p, 9);
 
     // 1. Calculamos el tamaño del contenedor principal proporcionalmente
-    int caja_w = (ancho_p * 62) / 100; 
-    int caja_h = (alto_p * 60) / 100; 
+    int caja_w = (ancho_p * 62) / 100;
+    int caja_h = (alto_p * 60) / 100;
 
     // Centramos la caja principal en la pantalla actual
     int caja_x = (ancho_p - caja_w) / 2;
@@ -105,14 +105,11 @@ void dibujar_letra(char c, int x, int y, int color)
     }
 }
 
-int Presentacion(char nombre[])
+int Presentacion(char nombre[], int ancho_pantalla, int alto_pantalla)
 {
     EstadoJuego estado_programa = estado_menu;
     int mostrar_palabra = 1;
     int longitud = 0;
-
-    int ancho_pantalla = ANCHO_VENTANA; 
-    int alto_pantalla = ALTO_VENTANA;   
 
     // aplicar paleta
     if (gbt_aplicar_paleta(paletaCGA, CANT_COLORES, GBT_FORMATO_888) != 0) {
@@ -197,7 +194,7 @@ int Presentacion(char nombre[])
 
         // 3. PRESS ENTER CENTRADO DINÁMICAMENTE (¡Se removió press_box_w sin usar!)
         int press_box_y = caja_y + (caja_h * 83) / 100;
-        int press_x = caja_x + (caja_w - 88) / 2; 
+        int press_x = caja_x + (caja_w - 88) / 2;
         int press_y = press_box_y + ((caja_h * 8 / 100) - 8) / 2;
 
         dibujar_texto("PRESS", press_x, press_y, 4);

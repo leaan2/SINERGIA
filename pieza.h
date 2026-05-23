@@ -49,7 +49,9 @@ void eliminarFila(int** tablero, int fila);
 int eliminarFilasCompletas(int** tablero);
 int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida);
 
-void juego();
+void juego(int escala_ventana, int resolucion_inicial);
+
+void registrar_en_ranking(const char* nombre, int puntaje);
 
 
 

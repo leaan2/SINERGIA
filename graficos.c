@@ -26,6 +26,29 @@ tGBT_ColorRGB paletaCGA[CANT_COLORES] = {
     {0xFF, 0xFF, 0xFF}  // 15:  Usado como transparente por GBT
 };
 
+static int limite_ancho_dibujo = ANCHO_VENTANA;
+static int limite_alto_dibujo = ALTO_VENTANA;
+
+void configurar_limites_dibujo(int ancho, int alto)
+{
+    if(ancho > 0)
+        limite_ancho_dibujo = ancho;
+
+    if(alto > 0)
+        limite_alto_dibujo = alto;
+}
+
+static void dibujar_pixel_seguro(int x, int y, int color)
+{
+    if(x < 0 || y < 0)
+        return;
+
+    if(x >= limite_ancho_dibujo || y >= limite_alto_dibujo)
+        return;
+
+    gbt_dibujar_pixel((uint16_t)x, (uint16_t)y, (uint8_t)color);
+}
+
 
 void Dibujar_rect(int x, int y, int w, int h, int color);
 void dibujarBorde(int x, int y, int w, int h, int color);
@@ -36,31 +59,41 @@ void dibujarInterfaz();
 
 void Dibujar_rect(int x, int y, int w, int h, int color)
 {
-    for (int i = x; i < x + w; i++)
-        for (int j = y; j < y + h; j++)
-            gbt_dibujar_pixel(i, j, color);
+    if(w <= 0 || h <= 0)
+        return;
+
+    int x0 = (x < 0) ? 0 : x;
+    int y0 = (y < 0) ? 0 : y;
+    int x1 = x + w;
+    int y1 = y + h;
+
+    if(x1 > limite_ancho_dibujo)
+        x1 = limite_ancho_dibujo;
+
+    if(y1 > limite_alto_dibujo)
+        y1 = limite_alto_dibujo;
+
+    if(x0 >= x1 || y0 >= y1)
+        return;
+
+    for (int i = x0; i < x1; i++)
+        for (int j = y0; j < y1; j++)
+            gbt_dibujar_pixel((uint16_t)i, (uint16_t)j, (uint8_t)color);
 }
 
 //Prueba//
 void dibujarBorde(int x, int y, int w, int h, int color) {
-    for (int i = x; i < x + w; i++) {
-        gbt_dibujar_pixel(i, y, color);
-        gbt_dibujar_pixel(i, y + h - 1, color);
-    }
+    if(w <= 0 || h <= 0)
+        return;
 
-    for (int j = y; j < y + h; j++) {
-        gbt_dibujar_pixel(x, j, color);
-        gbt_dibujar_pixel(x + w - 1, j, color);
-    }
+    Dibujar_rect(x, y, w, 1, color);
+    Dibujar_rect(x, y + h - 1, w, 1, color);
+    Dibujar_rect(x, y, 1, h, color);
+    Dibujar_rect(x + w - 1, y, 1, h, color);
 }
 
 void dibujarFondo() {
-    for (int y = 0; y < ALTO_VENTANA; y++) {
-        for (int x = 0; x < ANCHO_VENTANA; x++) {
-                gbt_dibujar_pixel(x, y, 9); // verde oscuro
-
-        }
-    }
+    Dibujar_rect(0, 0, limite_ancho_dibujo, limite_alto_dibujo, 9);
 }
 
 void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], int color)
@@ -71,7 +104,7 @@ void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], 
         {
             if (matriz[i][j] == 1)
             {
-                gbt_dibujar_pixel(x + j, y + i, color);
+                dibujar_pixel_seguro(x + j, y + i, color);
             }
         }
     }
@@ -81,7 +114,7 @@ void dibujar_linea(int x, int y, int h ,int color)
 {
     for(int j=y;j< h; j++)
     {
-        gbt_dibujar_pixel(x,j,color);
+        dibujar_pixel_seguro(x, j, color);
     }
 }
 
@@ -180,7 +213,7 @@ void cargar_configuracion(Configuracion *config) {
     } else {
         // Valores por defecto iniciales si el jugador abre el juego por primera vez
         config->paleta_tipo = 0;
-        config->resolucion_tipo = 0;
+        config->resolucion_tipo = 1;
         config->velocidad_init = 0.5;
         guardar_configuracion(config);
     }
