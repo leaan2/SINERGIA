@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "graficos.h"
 #include "GBT/gbt.h"
@@ -8,13 +7,13 @@
 #include "presentacion.h"
 #include "pieza.h"
 
-
 int main(int argc, char *argv[])
-
 {
-    int ancho = 320;
-    int alto = 200;
-    int escala = 3;
+    Configuracion config;
+    cargar_configuracion(&config);
+
+    int escala = ESCALA_VENTANA;
+    int resolucion_inicial = -1;
 
     // =========================
     // ARGUMENTO 1 -> RESOLUCION
@@ -22,15 +21,21 @@ int main(int argc, char *argv[])
 
     if(argc >= 2)
     {
-        if(strcmp(argv[1], "CGA") == 0)
+        char resolucion_arg = argv[1][0];
+
+        if(resolucion_arg == 'c' || resolucion_arg == 'C')
         {
-            ancho = 320;
-            alto = 200;
+            resolucion_inicial = 0;
         }
-        else if(strcmp(argv[1], "VGA") == 0)
+        else if(resolucion_arg == 'v' || resolucion_arg == 'V')
         {
-            ancho = 640;
-            alto = 480;
+            resolucion_inicial = 1;
+        }
+
+        if(resolucion_inicial >= 0)
+        {
+            config.resolucion_tipo = resolucion_inicial;
+            guardar_configuracion(&config);
         }
     }
 
@@ -48,6 +53,9 @@ int main(int argc, char *argv[])
 
     // =========================
 
+    int ancho = (config.resolucion_tipo == 0) ? 320 : ANCHO_VENTANA;
+    int alto = (config.resolucion_tipo == 0) ? 200 : ALTO_VENTANA;
+
     if (gbt_iniciar() != 0) {
         fprintf(stderr, "Error al iniciar GBT: %s\n", gbt_obtener_log());
         return -1;
@@ -58,10 +66,12 @@ int main(int argc, char *argv[])
         return -1;
     }
 
+    configurar_limites_dibujo(ancho, alto);
+
     printf("Resolucion: %dx%d\n", ancho, alto);
     printf("Escala: %d\n", escala);
 
-    juego();
+    juego(escala, resolucion_inicial);
 
     gbt_destruir_ventana();
     gbt_cerrar();

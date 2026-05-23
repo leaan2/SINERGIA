@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include "GBT/gbt.h"
 #include <time.h>
-#include "graficos.h"
-
+#include "presentacion.h" // 1° Las constantes base
+#include "pieza.h"        // 2° Las estructuras de las piezas y ranking
+#include "graficos.h"     // 3° Los gráficos que usan esas estructuras
+#include "GBT/gbt.h"
 
 // --- Definición de Piezas ---
 
@@ -25,7 +27,7 @@ Pieza piezaI = {
         {0,0,0,0},
         {0,0,0,0}
     },
-    
+
     3
 };
 
@@ -133,128 +135,59 @@ void mostrarMatriz(int** m, int filas, int columnas)
 
 void dibujarBloque(int x, int y, uint8_t color_original, int paleta_tipo)
 {
+    // Si el bloque es vacío (0), no dibujamos nada para respetar el fondo
+    if (color_original == 0) return;
+
     uint8_t color_base = color_original;
-    uint8_t brillo = 15;
-    uint8_t sombra = 8;
+    uint8_t brillo = 15; // Blanco para resaltar bordes
+    uint8_t sombra = 0;  // Negro para la base del relieve
     uint8_t centro = color_original;
 
-    // =========================
-    // PALETAS
-    // =========================
-
-    if (color_original != 0)
-    {
-        switch (paleta_tipo)
-        {
-            case 1: // GAMEBOY
-                color_base = 2;
-                brillo = 10;
-                sombra = 0;
-                centro = 2;
-                break;
-
-            case 2: // NEON
-                color_base = color_original;
-
-                brillo = 15;
-                sombra = 8;
-
-                break;
-
-            case 0:
-            default:
-                color_base = color_original;
-                brillo = 15;
-                sombra = 8;
-                break;
-        }
+    // --- ANTICOLISIÓN DE COLOR CON EL FONDO ---
+    // Si elegiste el color '1' de fondo y la pieza justo usa el color '1':
+    if (color_base == 1) {
+        color_base = 9;   // Lo cambiamos dinámicamente a un azul más claro / celeste
+        centro = 9;
+    }
+    // Si elegiste el color '8' de fondo y la pieza justo usa el color '8':
+    else if (color_base == 8) {
+        color_base = 7;   // Lo cambiamos a un gris claro o plateado
+        centro = 7;
     }
 
-    // =========================
-    // CUERPO PRINCIPAL
-    // =========================
+    // =========================================
+    // PALETAS (Mantenemos tu lógica previa)
+    // =========================================
+    if (paleta_tipo == 1) { // GAMEBOY
+        color_base = 2;
+        brillo = 10;
+        sombra = 0;
+        centro = 2;
+    } else if (paleta_tipo == 2) { // NEON
+        brillo = 15;
+        sombra = 8;
+    }
 
-    Dibujar_rect(
-        x,
-        y,
-        TAM_BLOQUE,
-        TAM_BLOQUE,
-        color_base
-    );
+    // =========================================
+    // RENDERIZADO DEL BLOQUE CON RELIEVE
+    // =========================================
+    // Cuerpo Base
+    Dibujar_rect(x, y, TAM_BLOQUE, TAM_BLOQUE, color_base);
 
-    // =========================
-    // BORDE SUPERIOR (BRILLO)
-    // =========================
+    // Borde Superior Izquierdo (Brillo que la separa del fondo)
+    Dibujar_rect(x, y, TAM_BLOQUE, 2, brillo);
+    Dibujar_rect(x, y, 2, TAM_BLOQUE, brillo);
 
-    Dibujar_rect(
-        x,
-        y,
-        TAM_BLOQUE,
-        2,
-        brillo
-    );
+    // Borde Inferior Derecho (Sombra de contraste)
+    Dibujar_rect(x, y + TAM_BLOQUE - 2, TAM_BLOQUE, 2, sombra);
+    Dibujar_rect(x + TAM_BLOQUE - 2, y, 2, TAM_BLOQUE, sombra);
 
-    // =========================
-    // BORDE IZQUIERDO (BRILLO)
-    // =========================
+    // Centro Interno
+    Dibujar_rect(x + 3, y + 3, TAM_BLOQUE - 6, TAM_BLOQUE - 6, centro);
 
-    Dibujar_rect(
-        x,
-        y,
-        2,
-        TAM_BLOQUE,
-        brillo
-    );
-
-    // =========================
-    // BORDE INFERIOR (SOMBRA)
-    // =========================
-
-    Dibujar_rect(
-        x,
-        y + TAM_BLOQUE - 2,
-        TAM_BLOQUE,
-        2,
-        sombra
-    );
-
-    // =========================
-    // BORDE DERECHO (SOMBRA)
-    // =========================
-
-    Dibujar_rect(
-        x + TAM_BLOQUE - 2,
-        y,
-        2,
-        TAM_BLOQUE,
-        sombra
-    );
-
-    // =========================
-    // CENTRO INTERNO
-    // =========================
-
-    Dibujar_rect(
-        x + 3,
-        y + 3,
-        TAM_BLOQUE - 6,
-        TAM_BLOQUE - 6,
-        centro
-    );
-
-    // =========================
-    // PIXEL BRILLO ESQUINA
-    // =========================
-
-    Dibujar_rect(
-        x + 2,
-        y + 2,
-        2,
-        2,
-        15
-    );
+    // Pixel de Brillo Extremo
+    Dibujar_rect(x + 2, y + 2, 2, 2, 15);
 }
-
 
 // Actualizamos dibujarPieza para que reciba la paleta y se la pase a dibujarBloque
 void dibujarPieza(Pieza p, int posX, int posY, int paleta_tipo)
@@ -424,19 +357,69 @@ int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida)
     return puntaje;
 }
 
+static void obtener_resolucion_config(const Configuracion *config, int *ancho, int *alto)
+{
+    if(config->resolucion_tipo == 0)
+    {
+        *ancho = 320;
+        *alto = 200;
+    }
+    else
+    {
+        *ancho = 640;
+        *alto = 480;
+    }
+}
+
+static void aplicar_resolucion_config(const Configuracion *config, int escala_ventana)
+{
+    int ancho = 0;
+    int alto = 0;
+
+    obtener_resolucion_config(config, &ancho, &alto);
+
+    gbt_destruir_ventana();
+
+    if(gbt_crear_ventana("Tetris", ancho, alto, escala_ventana) != 0)
+    {
+        fprintf(stderr, "Error cambiando resolucion: %s\n", gbt_obtener_log());
+        return;
+    }
+
+    configurar_limites_dibujo(ancho, alto);
+
+    if(gbt_aplicar_paleta(paletaCGA, CANT_COLORES, GBT_FORMATO_888) != 0)
+    {
+        fprintf(stderr, "Error reaplicando paleta: %s\n", gbt_obtener_log());
+    }
+}
+
 // --- Bucle Principal del Juego ---
 
-void juego()
+void juego(int escala_ventana, int resolucion_inicial)
 {
-    char nombre[MAX_NOMBRE] = "";
-    int longitud = Presentacion(nombre);
-
     // --- CARGAR CONFIGURACIÓN DESDE ARCHIVO ---
     Configuracion config;
     cargar_configuracion(&config);
 
+    if(resolucion_inicial >= 0)
+    {
+        config.resolucion_tipo = resolucion_inicial;
+        guardar_configuracion(&config);
+    }
+
+    int ancho_presentacion = 0;
+    int alto_presentacion = 0;
+    obtener_resolucion_config(&config, &ancho_presentacion, &alto_presentacion);
+
+    char nombre[MAX_NOMBRE] = "";
+    int longitud = Presentacion(nombre, ancho_presentacion, alto_presentacion);
+
     EstadoJuego estadoActual = estado_menu;
+    EstadoJuego estadoAnteriorRanking = estado_menu;
     int opcion_seleccionada = 0;
+    int opcion_pausa = 0;
+    int opcion_configuracion = 0;
 
     // Variables de control de la partida
     int filasborradas = 0;
@@ -467,14 +450,19 @@ void juego()
         gbt_procesar_entrada();
         eGBT_Tecla tecla = gbt_obtener_tecla_presionada();
 
-        gbt_borrar_backbuffer(0);
+        gbt_borrar_backbuffer(9);
+
+        // --- ADAPTACIÓN DINÁMICA DE RESOLUCIÓN ---
+        int ancho_pantalla = 0;
+        int alto_pantalla = 0;
+        obtener_resolucion_config(&config, &ancho_pantalla, &alto_pantalla);
 
         switch(estadoActual)
         {
             case estado_menu:
                 // --- LÓGICA DEL MENÚ GRÁFICO INTERACTIVO ---
-                if(tecla == GBTK_s || tecla == GBTK_ABAJO) opcion_seleccionada = (opcion_seleccionada + 1) % 4;
-                if(tecla == GBTK_w || tecla == GBTK_ARRIBA) opcion_seleccionada = (opcion_seleccionada - 1 + 4) % 4;
+                if(tecla == GBTK_s || tecla == GBTK_ABAJO) opcion_seleccionada = (opcion_seleccionada + 1) % 6;
+                if(tecla == GBTK_w || tecla == GBTK_ARRIBA) opcion_seleccionada = (opcion_seleccionada - 1 + 6) % 6;
 
                 // Modificar valores con Izquierda/Derecha
                 if(tecla == GBTK_d || tecla == GBTK_DERECHA || tecla == GBTK_a || tecla == GBTK_IZQUIERDA) {
@@ -484,74 +472,127 @@ void juego()
                         config.paleta_tipo = (config.paleta_tipo + dir + 3) % 3;
                     }
                     else if(opcion_seleccionada == 1) { // Cambiar Resolución en el Menú
-                        // Alterna limpiamente entre 0 (CGA) y 1 (VGA)
                         config.resolucion_tipo = (config.resolucion_tipo + dir + 2) % 2;
+                        aplicar_resolucion_config(&config, escala_ventana);
+                        obtener_resolucion_config(&config, &ancho_pantalla, &alto_pantalla);
 
-                        // Mensaje de control en consola (opcional para depurar)
                         printf("Resolucion logica seteada en: %s\n",
                                 (config.resolucion_tipo == 1) ? "VGA (640x480)" : "CGA (320x200)");
                     }
-                                        else if(opcion_seleccionada == 2) { // Cambiar Velocidad Inicial
-                                            config.velocidad_init -= dir * 0.1;
-                                            if(config.velocidad_init < 0.1) config.velocidad_init = 0.1;
-                                            if(config.velocidad_init > 1.5) config.velocidad_init = 1.5;
+                    else if(opcion_seleccionada == 2) { // Cambiar Velocidad Inicial
+                        config.velocidad_init -= dir * 0.1;
+                        if(config.velocidad_init < 0.1) config.velocidad_init = 0.1;
+                        if(config.velocidad_init > 1.5) config.velocidad_init = 1.5;
 
-                                            // SOLUCIÓN CONTENIDO BASURA: Usamos %f con precisión de 2 decimales (.2)
-                                            printf("Velocidad seleccionada: %.2f segundos\n", config.velocidad_init);
-                                        }
-                                    }
+                        printf("Velocidad seleccionada: %.2f segundos\n", config.velocidad_init);
+                    }
+                }
 
-                // Si tocás ESCAPE en el menú principal, ahí sí cierra el juego por completo
                 if(tecla == GBTK_ESCAPE) {
                     corriendo = 0;
                 }
 
-                // --- RENDERIZADO GRÁFICO DEL MENÚ (Valores dinámicos) ---
-                dibujar_matriz(30, 10, 8, 8, letra_M, 4);
-                dibujar_matriz(38, 10, 8, 8, letra_E, 4);
-                dibujar_matriz(46, 10, 8, 8, letra_N, 4);
-                dibujar_matriz(54, 10, 8, 8, letra_U, 4);
+                // --- RENDEREADO ADAPTATIVO DEL MENÚ EN PANTALLA ---
+                // Centramos un bloque virtual del menú en la mitad de la pantalla
+                int menu_centro_x = ancho_pantalla / 2;
 
                 // Fila 0: PALETA
-                if(opcion_seleccionada == 0) Dibujar_rect(10, 42, 4, 4, 14); // Puntero amarillo
-                dibujar_matriz(20, 40, 8, 8, letra_P, 4);
+                // Mostrar número de paleta al lado
 
                 // Fila 1: RESOLUCIÓN
-               // Fila 1: RESOLUCIÓN
-                    if(opcion_seleccionada == 1) Dibujar_rect(10, 62, 4, 4, 14);
-                    dibujar_matriz(20, 60, 8, 8, letra_R, 4); // Dibuja la 'R' de resolución
-
-                    // Dibujamos al lado "CGA" o "VGA" dinámicamente según la estructura config
-                    if(config.resolucion_tipo == 0) {
-                        dibujar_matriz(35, 60, 8, 8, letra_C, 14);
-                        dibujar_matriz(43, 60, 8, 8, letra_G, 14);
-                        dibujar_matriz(51, 60, 8, 8, letra_A, 14);
-                    } else {
-                        dibujar_matriz(35, 60, 8, 8, letra_V, 14);
-                        dibujar_matriz(43, 60, 8, 8, letra_G, 14);
-                        dibujar_matriz(51, 60, 8, 8, letra_A, 14);
-                    }
 
                 // Fila 2: VELOCIDAD
-                if(opcion_seleccionada == 2) Dibujar_rect(10, 82, 4, 4, 14);
-                dibujar_matriz(20, 80, 8, 8, letra_V, 4);
+                // Representamos la velocidad de forma simple con barras o un indicador
 
-                // Fila 3: JUGAR / CONTINUAR
-                if(opcion_seleccionada == 3) Dibujar_rect(10, 112, 4, 4, 10); // Puntero verde
-                dibujar_matriz(20, 110, 8, 8, letra_J, 2);
-                dibujar_matriz(28, 110, 8, 8, letra_U, 2);
-                dibujar_matriz(36, 110, 8, 8, letra_G, 2);
-                dibujar_matriz(44, 110, 8, 8, letra_A, 2);
-                dibujar_matriz(52, 110, 8, 8, letra_R, 2);
+                // Fila 3: RANKING
 
-                // Acción al presionar ENTER o ESPACIO en JUGAR
+                // Fila 4: JUGAR
+
+                // Fila 5: SALIR
+
+                int menu_compacto = (alto_pantalla <= 240);
+                int menu_panel_w = menu_compacto ? 240 : 280;
+                int menu_panel_h = menu_compacto ? 180 : 285;
+                int menu_panel_x = menu_centro_x - menu_panel_w / 2;
+                int menu_panel_y = (alto_pantalla - menu_panel_h) / 2;
+                int menu_fila_y = menu_panel_y + (menu_compacto ? 50 : 78);
+                int menu_fila_espacio = menu_compacto ? 20 : 30;
+                int menu_texto_x = menu_panel_x + (menu_compacto ? 44 : 54);
+                int menu_valor_x = menu_panel_x + (menu_compacto ? 155 : 190);
+
+                Dibujar_rect(menu_panel_x, menu_panel_y, menu_panel_w, menu_panel_h, 0);
+                dibujarBorde(menu_panel_x, menu_panel_y, menu_panel_w, menu_panel_h, 14);
+                Dibujar_rect(menu_panel_x + 8, menu_panel_y + 8, menu_panel_w - 16, 2, 8);
+                Dibujar_rect(menu_panel_x + 8, menu_panel_y + menu_panel_h - 10, menu_panel_w - 16, 2, 8);
+
+                int menu_titulo_x = menu_centro_x - 27;
+                int menu_titulo_y = menu_panel_y + (menu_compacto ? 14 : 18);
+                dibujar_matriz(menu_titulo_x + 0,  menu_titulo_y, 16, 8, letra_T_16, 4);
+                dibujar_matriz(menu_titulo_x + 9,  menu_titulo_y, 16, 8, letra_E_16, 4);
+                dibujar_matriz(menu_titulo_x + 18, menu_titulo_y, 16, 8, letra_T_16, 4);
+                dibujar_matriz(menu_titulo_x + 27, menu_titulo_y, 16, 8, letra_R_16, 4);
+                dibujar_matriz(menu_titulo_x + 36, menu_titulo_y, 16, 8, letra_I_16, 4);
+                dibujar_matriz(menu_titulo_x + 45, menu_titulo_y, 16, 8, letra_S_16, 4);
+
+                char* opciones_menu[6] =
+                {
+                    "PALETA",
+                    "RES",
+                    "VELOC",
+                    "RANKING",
+                    "JUGAR",
+                    "SALIR"
+                };
+
+                for(int i = 0; i < 6; i++)
+                {
+                    int opcion_y = menu_fila_y + menu_fila_espacio * i;
+                    int texto_color = 7;
+
+                    if(i <= 3) texto_color = 4;
+                    if(i == 4) texto_color = 2;
+
+                    if(i == opcion_seleccionada)
+                    {
+                        Dibujar_rect(menu_panel_x + 22, opcion_y - 4, menu_panel_w - 44, 17, 8);
+                        Dibujar_rect(menu_panel_x + 34, opcion_y + 2, 4, 4, 14);
+                        texto_color = 14;
+                    }
+
+                    for(int j = 0; opciones_menu[i][j] != '\0'; j++)
+                    {
+                        dibujar_letra(opciones_menu[i][j], menu_texto_x + j * 8, opcion_y, texto_color);
+                    }
+                }
+
+                if(config.paleta_tipo == 0) dibujar_letra('C', menu_valor_x, menu_fila_y, 14);
+                if(config.paleta_tipo == 1) dibujar_letra('G', menu_valor_x, menu_fila_y, 14);
+                if(config.paleta_tipo == 2) dibujar_letra('N', menu_valor_x, menu_fila_y, 14);
+
+                if(config.resolucion_tipo == 0)
+                {
+                    dibujar_letra('C', menu_valor_x, menu_fila_y + menu_fila_espacio, 14);
+                    dibujar_letra('G', menu_valor_x + 8, menu_fila_y + menu_fila_espacio, 14);
+                    dibujar_letra('A', menu_valor_x + 16, menu_fila_y + menu_fila_espacio, 14);
+                }
+                else
+                {
+                    dibujar_letra('V', menu_valor_x, menu_fila_y + menu_fila_espacio, 14);
+                    dibujar_letra('G', menu_valor_x + 8, menu_fila_y + menu_fila_espacio, 14);
+                    dibujar_letra('A', menu_valor_x + 16, menu_fila_y + menu_fila_espacio, 14);
+                }
+
+                Dibujar_rect(menu_valor_x, menu_fila_y + menu_fila_espacio * 2 + 3, 34, 4, 8);
+                Dibujar_rect(menu_valor_x, menu_fila_y + menu_fila_espacio * 2 + 3, (int)(config.velocidad_init * 20), 4, 14);
+
+                // Acción al presionar ENTER o ESPACIO en RANKING/JUGAR/SALIR
                 if((tecla == GBTK_ENTER || tecla == GBTK_ESPACIO) && opcion_seleccionada == 3) {
-
-                    // Guardamos los cambios para que sean perdurables
+                    estadoAnteriorRanking = estado_menu;
+                    estadoActual = estado_ranking;
+                }
+                else if((tecla == GBTK_ENTER || tecla == GBTK_ESPACIO) && opcion_seleccionada == 4) {
                     guardar_configuracion(&config);
 
-                    // SOLUCIÓN CAMBIO DE VELOCIDAD EN EN PARTIDA INICIADA:
-                    // Si el juego ya había empezado (el temporizador ya existe), lo destruimos para aplicar el nuevo tiempo
                     if (temporizador) {
                         gbt_temporizador_destruir(temporizador);
                         temporizador = NULL;
@@ -561,25 +602,20 @@ void juego()
                         temporizadorLock = NULL;
                     }
 
-                    // Creamos el temporizador con la velocidad modificada (sea nueva partida o reanudada)
                     tiempocaida = config.velocidad_init;
                     temporizador = gbt_temporizador_crear(tiempocaida);
                     temporizadorLock = gbt_temporizador_crear(0.2);
 
                     printf("Juego iniciado/reanudado. Gravedad: %.2f segundos por bloque.\n", tiempocaida);
-                    estadoActual = estado_juego; // Vamos a jugar
+                    estadoActual = estado_juego;
+                }
+                else if((tecla == GBTK_ENTER || tecla == GBTK_ESPACIO) && opcion_seleccionada == 5) {
+                    corriendo = 0;
                 }
                 break;
 
             case estado_juego:
-                // --- CAMBIO CLAVE: ESCAPE VA AL MENÚ, NO CIERRA ---
                 if(tecla == GBTK_ESCAPE) {
-                    estadoActual = estado_menu;
-                    break;
-                }
-
-                // Botón de Pausa clásica alternativo (Tecla P)
-                if(tecla == GBTK_p) {
                     estadoActual = estado_pausa;
                     break;
                 }
@@ -622,33 +658,396 @@ void juego()
                     tocandoPiso = 0;
                 }
 
-                // Render
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo);
+                // El renderizado de dibujarInterfaz debe internamente calcular offsets basados en ancho/alto pantalla
+                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 break;
 
-            case estado_pausa:
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo);
+           case estado_pausa:
 
-                // Letrero "PAUSA"
-                dibujar_matriz(40, 80, 8, 8, letra_P, 12);
-                dibujar_matriz(48, 80, 8, 8, letra_A, 12);
-                dibujar_matriz(56, 80, 8, 8, letra_U, 12);
-                dibujar_matriz(64, 80, 8, 8, letra_S, 12);
-                dibujar_matriz(72, 80, 8, 8, letra_A, 12);
+            dibujarInterfaz(tablero, piezaOrig, fila, columna,
+                            nombre, longitud, puntaje,
+                            config.paleta_tipo,
+                            ancho_pantalla, alto_pantalla);
 
-                if(tecla == GBTK_p || tecla == GBTK_ESCAPE) {
+            int caja_w = 220;
+            int caja_h = 170;
+            int caja_x = (ancho_pantalla - caja_w) / 2;
+            int caja_y = (alto_pantalla - caja_h) / 2;
+
+            Dibujar_rect(caja_x, caja_y, caja_w, caja_h, 0);
+            dibujarBorde(caja_x, caja_y, caja_w, caja_h, 14);
+
+            // TITULO
+            char titulo[] = "PAUSA";
+
+            for(int i = 0; titulo[i] != '\0'; i++)
+            {
+                dibujar_letra(titulo[i],
+                               caja_x + 80 + i * 8,
+                               caja_y + 10,
+                               12);
+            }
+
+            if(tecla == GBTK_ESCAPE)
+            {
+                estadoActual = estado_juego;
+                break;
+            }
+
+            // CONTROLES
+            if(tecla == GBTK_w || tecla == GBTK_ARRIBA)
+                opcion_pausa = (opcion_pausa + 3) % 4;
+
+            if(tecla == GBTK_s || tecla == GBTK_ABAJO)
+                opcion_pausa = (opcion_pausa + 1) % 4;
+
+            // OPCIONES
+            char* opciones[4] =
+            {
+                "CONTINUAR",
+                "CONFIG",
+                "RANKING",
+                "SALIR"
+            };
+
+            for(int i = 0; i < 4; i++)
+            {
+                int color = (i == opcion_pausa) ? 14 : 7;
+
+                // FLECHA SELECTOR
+                if(i == opcion_pausa)
+                {
+                    Dibujar_rect(caja_x + 25,
+                                 caja_y + 47 + i * 25,
+                                 4, 4, 14);
+                }
+
+                // TEXTO
+                for(int j = 0; opciones[i][j] != '\0'; j++)
+                {
+                    dibujar_letra(opciones[i][j],
+                                   caja_x + 45 + j * 8,
+                                   caja_y + 45 + i * 25,
+                                   color);
+                }
+            }
+
+            // ENTER
+            if(tecla == GBTK_ENTER || tecla == GBTK_ESPACIO)
+            {
+                if(opcion_pausa == 0)
+                {
                     estadoActual = estado_juego;
                 }
-                break;
+                else if(opcion_pausa == 1)
+                {
+                    opcion_configuracion = 0;
+                    estadoActual = estado_configuracion;
+                }
+                else if(opcion_pausa == 2)
+                {
+                    estadoAnteriorRanking = estado_pausa;
+                    estadoActual = estado_ranking;
+                }
+                else if(opcion_pausa == 3)
+                {
+                    estadoActual = estado_menu;
+                }
+            }
 
-            case estado_gameover:
-                dibujar_matriz(30, 60, 8, 8, letra_G, 4);
-                dibujar_matriz(38, 60, 8, 8, letra_A, 4);
-                dibujar_matriz(46, 60, 8, 8, letra_M, 4);
-                dibujar_matriz(54, 60, 8, 8, letra_E, 4);
+            break;
+            case estado_configuracion:
+            {
+                dibujarInterfaz(tablero, piezaOrig, fila, columna,
+                                nombre, longitud, puntaje,
+                                config.paleta_tipo,
+                                ancho_pantalla, alto_pantalla);
+
+                int config_w = 260;
+                int config_h = 170;
+                int config_x = (ancho_pantalla - config_w) / 2;
+                int config_y = (alto_pantalla - config_h) / 2;
+
+                Dibujar_rect(config_x, config_y, config_w, config_h, 0);
+                dibujarBorde(config_x, config_y, config_w, config_h, 14);
+
+                char titulo_config[] = "CONFIG";
+
+                for(int i = 0; titulo_config[i] != '\0'; i++)
+                {
+                    dibujar_letra(titulo_config[i],
+                                   config_x + 105 + i * 8,
+                                   config_y + 10,
+                                   12);
+                }
+
+                if(tecla == GBTK_w || tecla == GBTK_ARRIBA)
+                    opcion_configuracion = (opcion_configuracion + 3) % 4;
+
+                if(tecla == GBTK_s || tecla == GBTK_ABAJO)
+                    opcion_configuracion = (opcion_configuracion + 1) % 4;
+
+                if(tecla == GBTK_d || tecla == GBTK_DERECHA || tecla == GBTK_a || tecla == GBTK_IZQUIERDA)
+                {
+                    int dir = (tecla == GBTK_d || tecla == GBTK_DERECHA) ? 1 : -1;
+
+                    if(opcion_configuracion == 0)
+                    {
+                        config.paleta_tipo = (config.paleta_tipo + dir + 3) % 3;
+                    }
+                    else if(opcion_configuracion == 1)
+                    {
+                        config.resolucion_tipo = (config.resolucion_tipo + dir + 2) % 2;
+                        aplicar_resolucion_config(&config, escala_ventana);
+                        obtener_resolucion_config(&config, &ancho_pantalla, &alto_pantalla);
+                    }
+                    else if(opcion_configuracion == 2)
+                    {
+                        config.velocidad_init -= dir * 0.1;
+                        if(config.velocidad_init < 0.1) config.velocidad_init = 0.1;
+                        if(config.velocidad_init > 1.5) config.velocidad_init = 1.5;
+
+                        tiempocaida = config.velocidad_init;
+
+                        if(temporizador)
+                        {
+                            gbt_temporizador_destruir(temporizador);
+                            temporizador = gbt_temporizador_crear(tiempocaida);
+                        }
+                    }
+
+                    guardar_configuracion(&config);
+                }
+
+                char* opciones_config[4] =
+                {
+                    "PALETA",
+                    "RES",
+                    "VELOC",
+                    "VOLVER"
+                };
+
+                for(int i = 0; i < 4; i++)
+                {
+                    int color = (i == opcion_configuracion) ? 14 : 7;
+                    int y_opcion = config_y + 45 + i * 25;
+
+                    if(i == opcion_configuracion)
+                    {
+                        Dibujar_rect(config_x + 25, y_opcion + 2, 4, 4, 14);
+                    }
+
+                    for(int j = 0; opciones_config[i][j] != '\0'; j++)
+                    {
+                        dibujar_letra(opciones_config[i][j],
+                                       config_x + 45 + j * 8,
+                                       y_opcion,
+                                       color);
+                    }
+
+                    if(i == 0)
+                    {
+                        if(config.paleta_tipo == 0) dibujar_letra('C', config_x + 165, y_opcion, 14);
+                        if(config.paleta_tipo == 1) dibujar_letra('G', config_x + 165, y_opcion, 14);
+                        if(config.paleta_tipo == 2) dibujar_letra('N', config_x + 165, y_opcion, 14);
+                    }
+                    else if(i == 1)
+                    {
+                        if(config.resolucion_tipo == 0)
+                        {
+                            dibujar_letra('C', config_x + 155, y_opcion, 14);
+                            dibujar_letra('G', config_x + 163, y_opcion, 14);
+                            dibujar_letra('A', config_x + 171, y_opcion, 14);
+                        }
+                        else
+                        {
+                            dibujar_letra('V', config_x + 155, y_opcion, 14);
+                            dibujar_letra('G', config_x + 163, y_opcion, 14);
+                            dibujar_letra('A', config_x + 171, y_opcion, 14);
+                        }
+                    }
+                    else if(i == 2)
+                    {
+                        Dibujar_rect(config_x + 155, y_opcion + 2, 32, 4, 8);
+                        Dibujar_rect(config_x + 155, y_opcion + 2, (int)(config.velocidad_init * 20), 4, 14);
+                    }
+                }
+
+                if((tecla == GBTK_ENTER || tecla == GBTK_ESPACIO) && opcion_configuracion == 3)
+                {
+                    guardar_configuracion(&config);
+                    estadoActual = estado_pausa;
+                }
+
+                if(tecla == GBTK_ESCAPE)
+                {
+                    guardar_configuracion(&config);
+                    estadoActual = estado_pausa;
+                }
+
+                break;
+            }
+            case estado_ranking:
+            {
+                dibujarInterfaz(tablero, piezaOrig, fila, columna,
+                                nombre, longitud, puntaje,
+                                config.paleta_tipo,
+                                ancho_pantalla, alto_pantalla);
+
+                int ranking_compacto = (ancho_pantalla <= 360 || alto_pantalla <= 240);
+                int margen = ranking_compacto ? 12 : 0;
+                int rw = ranking_compacto ? ancho_pantalla - margen * 2 : 400;
+                int rh = ranking_compacto ? alto_pantalla - margen * 2 : 300;
+                int rx = ranking_compacto ? (ancho_pantalla - rw) / 2 : 120;
+                int ry = ranking_compacto ? (alto_pantalla - rh) / 2 : 60;
+                int titulo_y = ry + (ranking_compacto ? 8 : 10);
+                int fila_y = ry + (ranking_compacto ? 38 : 50);
+                int fila_espacio = ranking_compacto ? 24 : 30;
+                int puesto_x = rx + (ranking_compacto ? 18 : 30);
+                int nombre_x = rx + (ranking_compacto ? 44 : 60);
+                int puntaje_x = ranking_compacto ? rx + rw - 70 : rx + 250;
+
+                Dibujar_rect(rx, ry, rw, rh, 0);
+                dibujarBorde(rx, ry, rw, rh, 14);
+
+                char titulo_rank[] = "RANKING";
+                int titulo_x = rx + (rw - 56) / 2;
+
+                for(int i = 0; titulo_rank[i] != '\0'; i++)
+                {
+                    dibujar_letra(titulo_rank[i],
+                                   titulo_x + i * 8,
+                                   titulo_y,
+                                   14);
+                }
+
+                FILE *f_rank = fopen("ranking.dat", "rb");
+
+                if(f_rank != NULL)
+                {
+                    RegistroRanking lista[100];
+                    int total = 0;
+
+                    while(total < 100 &&
+                          fread(&lista[total],
+                                sizeof(RegistroRanking),
+                                1,
+                                f_rank) == 1)
+                    {
+                        lista[total].nombre[MAX_NOMBRE - 1] = '\0';
+                        total++;
+                    }
+
+                    fclose(f_rank);
+
+                    // ORDENAR
+                    for(int i = 0; i < total - 1; i++)
+                    {
+                        for(int j = 0; j < total - i - 1; j++)
+                        {
+                            if(lista[j].puntaje < lista[j + 1].puntaje)
+                            {
+                                RegistroRanking aux = lista[j];
+                                lista[j] = lista[j + 1];
+                                lista[j + 1] = aux;
+                            }
+                        }
+                    }
+
+                    int max_nombre_chars = (puntaje_x - nombre_x - 8) / 8;
+                    if(max_nombre_chars > MAX_NOMBRE - 1)
+                        max_nombre_chars = MAX_NOMBRE - 1;
+                    if(max_nombre_chars < 0)
+                        max_nombre_chars = 0;
+
+                    for(int i = 0; i < total && i < 5; i++)
+                    {
+                        int y = fila_y + fila_espacio * i;
+                        char puesto = '1' + i;
+
+                        dibujar_letra(puesto, puesto_x, y, 14);
+
+                        for(int n = 0;
+                            lista[i].nombre[n] != '\0' && n < max_nombre_chars;
+                            n++)
+                        {
+                            dibujar_letra(lista[i].nombre[n],
+                                           nombre_x + n * 8,
+                                           y,
+                                           7);
+                        }
+
+                        char puntaje_texto[12];
+                        snprintf(puntaje_texto, sizeof(puntaje_texto), "%d", lista[i].puntaje);
+
+                        for(int n = 0; puntaje_texto[n] != '\0'; n++)
+                        {
+                            dibujar_letra(puntaje_texto[n],
+                                           puntaje_x + n * 8,
+                                           y,
+                                           12);
+                        }
+                    }
+                }
+
+                if(tecla == GBTK_ESCAPE)
+                {
+                    estadoActual = estadoAnteriorRanking;
+                }
+
+                break;
+            }
+           case estado_gameover:
+                dibujarInterfaz(tablero, piezaOrig, fila, columna,
+                                nombre, longitud, puntaje,
+                                config.paleta_tipo,
+                                ancho_pantalla, alto_pantalla);
+                // Letrero "GAME OVER" centrado dinámicamente
+                int go_panel_w = 220;
+                int go_panel_h = 140;
+                int go_panel_x = (ancho_pantalla - go_panel_w) / 2;
+                int go_panel_y = (alto_pantalla - go_panel_h) / 2;
+
+                Dibujar_rect(go_panel_x, go_panel_y, go_panel_w, go_panel_h, 0);
+                dibujarBorde(go_panel_x, go_panel_y, go_panel_w, go_panel_h, 14);
+
+                char game_texto[] = "GAME";
+                char over_texto[] = "OVER";
+                char puntaje_texto[] = "PUNTAJE";
+                char volver_texto[] = "ENTER MENU";
+                char puntaje_numero[12];
+
+                snprintf(puntaje_numero, sizeof(puntaje_numero), "%d", puntaje);
+
+                for(int i = 0; game_texto[i] != '\0'; i++)
+                {
+                    dibujar_letra(game_texto[i], go_panel_x + 94 + i * 8, go_panel_y + 18, 4);
+                }
+
+                for(int i = 0; over_texto[i] != '\0'; i++)
+                {
+                    dibujar_letra(over_texto[i], go_panel_x + 94 + i * 8, go_panel_y + 38, 12);
+                }
+
+                for(int i = 0; puntaje_texto[i] != '\0'; i++)
+                {
+                    dibujar_letra(puntaje_texto[i], go_panel_x + 45 + i * 8, go_panel_y + 72, 14);
+                }
+
+                for(int i = 0; puntaje_numero[i] != '\0'; i++)
+                {
+                    dibujar_letra(puntaje_numero[i], go_panel_x + 125 + i * 8, go_panel_y + 72, 7);
+                }
+
+                for(int i = 0; volver_texto[i] != '\0'; i++)
+                {
+                    dibujar_letra(volver_texto[i], go_panel_x + 70 + i * 8, go_panel_y + 105, 7);
+                }
 
                 if(tecla == GBTK_ESPACIO || tecla == GBTK_ENTER) {
-                    // Reiniciar el tablero a vacío para una nueva partida completa
+                    // === NUEVO: GUARDAMOS EN EL ARCHIVO BINARIO ANTES DE REINICIAR ===
+                    registrar_en_ranking(nombre, puntaje);
+
                     inicializarMatriz(tablero, ALTO_T, ANCHO_T);
                     puntaje = 0;
                     cantpiezas = 0;
@@ -670,7 +1069,6 @@ void juego()
         gbt_esperar(20);
     }
 
-    // Al cerrar la aplicación definitivamente limpiamos todo de la memoria RAM
     if(tablero) destruirMatriz(tablero, ALTO_T);
     if(temporizador) gbt_temporizador_destruir(temporizador);
     if(temporizadorLock) gbt_temporizador_destruir(temporizadorLock);

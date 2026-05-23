@@ -4,32 +4,27 @@
 #include <stdint.h>
 #include <time.h>
 
-#define ANCHO_VENTANA 320
-#define ALTO_VENTANA 200
-#define ESCALA_VENTANA 4
+#define ANCHO_VENTANA 640
+#define ALTO_VENTANA 480
+#define ESCALA_VENTANA 3
 
 #define ALTO_T 20
 #define ANCHO_T 10
 #define TAM 4
 #define SIN_MEM 1
-
 #define TAM_BLOQUE 10
 
 
 
-
 typedef struct
 {
     uint8_t forma[TAM][TAM];
     uint8_t color;
 } Pieza;
-
-
-typedef struct
-{
-    uint8_t forma[TAM][TAM];
-    uint8_t color;
-} Pieza;
+typedef struct {
+    char nombre[7];
+    int puntaje;
+} RegistroRanking;
 
 
 int** crearMatriz(int filas, int columnas);
@@ -54,7 +49,11 @@ void eliminarFila(int** tablero, int fila);
 int eliminarFilasCompletas(int** tablero);
 int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida);
 
-void juego();
+void juego(int escala_ventana, int resolucion_inicial);
+
+
+
+void registrar_en_ranking(const char* nombre, int puntaje);
 
 extern Pieza piezaT;
 extern Pieza piezaI;
