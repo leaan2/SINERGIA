@@ -3,7 +3,6 @@
 #include "GBT/gbt.h"
 #define CANT_COLORES 16
 #include "pieza.h"
-#include "presentacion.h"
 
 extern tGBT_ColorRGB paletaCGA[CANT_COLORES];
 typedef enum
@@ -11,6 +10,8 @@ typedef enum
     estado_menu,
     estado_juego,
     estado_pausa,
+    estado_configuracion,
+    estado_ranking,
     estado_gameover
 }EstadoJuego;
 typedef struct {
@@ -25,7 +26,8 @@ void dibujarBorde(int x, int y, int w, int h, int color);
 void dibujarFondo();
 void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], int color);
 void dibujar_linea(int x, int y, int h ,int color);
-void dibujarInterfaz(int** tablero, Pieza pieza, int fila, int columna, char Nombre[], int longitud, int puntaje, int paleta_tipo, int ancho_ventana, int alto_ventana);
+void dibujarInterfaz(int** tablero, Pieza piezaActual, int fila, int columna, char Nombre[], int longitud, int puntaje, int paleta_tipo, int ancho_ventana, int alto_ventana);
 void guardar_configuracion(Configuracion *config);
 void cargar_configuracion(Configuracion *config);
+void registrar_en_ranking(const char* nombre, int puntaje);
 #endif // GRAFICOS_H_INCLUDED

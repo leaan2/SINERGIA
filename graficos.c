@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <string.h>
 #include "graficos.h"
 #include "pieza.h"
+#include "presentacion.h"
+
+#define MAX_REGISTROS_RANKING 100
 tGBT_ColorRGB paletaCGA[CANT_COLORES] = {
 
     /// 0-15: Colores CGA (16 colores)
@@ -81,8 +85,8 @@ void dibujar_linea(int x, int y, int h ,int color)
     }
 }
 
-void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLogica, 
-                     char* nombre, int longitud, int puntaje, int paleta_tipo, 
+void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLogica,
+                     char* nombre, int longitud, int puntaje, int paleta_tipo,
                      int ancho_pantalla, int alto_pantalla)
 {
     // 1. Calcular el tamaño total del tablero en píxeles
@@ -97,7 +101,7 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLo
     // 3. DIBUJAR LÍMITES DEL TABLERO (Líneas Rojas)
     // ==========================================
     // Línea izquierda (un rectángulo finito vertical de ancho 2)
-    Dibujar_rect(offsetX - 2, offsetY, 2, alto_tablero_px, 4); 
+    Dibujar_rect(offsetX - 2, offsetY, 2, alto_tablero_px, 4);
 
     // Línea derecha (un rectángulo finito vertical de ancho 2)
     Dibujar_rect(offsetX + ancho_tablero_px, offsetY, 2, alto_tablero_px, 4);
@@ -115,7 +119,7 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLo
     // ==========================================
     int pieza_x = offsetX + (colLogica * TAM_BLOQUE);
     int pieza_y = offsetY + (filaLogica * TAM_BLOQUE);
-    
+
     dibujarPieza(piezaActual, pieza_x, pieza_y, paleta_tipo);
 
     // ==========================================
@@ -179,5 +183,73 @@ void cargar_configuracion(Configuracion *config) {
         config->resolucion_tipo = 0;
         config->velocidad_init = 0.5;
         guardar_configuracion(config);
+    }
+}
+void registrar_en_ranking(const char* nombre, int puntaje) {
+    // Si el nombre está vacío, no guardamos basura
+    if (nombre == NULL || nombre[0] == '\0') return;
+
+    RegistroRanking nuevo_registro;
+    // Copiamos el nombre de forma segura
+    snprintf(nuevo_registro.nombre, MAX_NOMBRE, "%s", nombre);
+    nuevo_registro.puntaje = puntaje;
+
+    RegistroRanking registros[MAX_REGISTROS_RANKING];
+    int total = 0;
+    int encontrado = -1;
+
+    FILE *archivo = fopen("ranking.dat", "rb");
+    if (archivo != NULL) {
+        while(total < MAX_REGISTROS_RANKING &&
+              fread(&registros[total], sizeof(RegistroRanking), 1, archivo) == 1)
+        {
+            registros[total].nombre[MAX_NOMBRE - 1] = '\0';
+
+            if(strcmp(registros[total].nombre, nuevo_registro.nombre) == 0)
+            {
+                encontrado = total;
+            }
+
+            total++;
+        }
+
+        fclose(archivo);
+    }
+
+    if(encontrado >= 0)
+    {
+        int nuevo_total = 0;
+        int reemplazado = 0;
+
+        for(int i = 0; i < total; i++)
+        {
+            if(strcmp(registros[i].nombre, nuevo_registro.nombre) == 0)
+            {
+                if(!reemplazado)
+                {
+                    registros[nuevo_total] = nuevo_registro;
+                    nuevo_total++;
+                    reemplazado = 1;
+                }
+            }
+            else
+            {
+                registros[nuevo_total] = registros[i];
+                nuevo_total++;
+            }
+        }
+
+        total = nuevo_total;
+    }
+    else if(total < MAX_REGISTROS_RANKING)
+    {
+        registros[total] = nuevo_registro;
+        total++;
+    }
+
+    archivo = fopen("ranking.dat", "wb");
+    if (archivo != NULL) {
+        fwrite(registros, sizeof(RegistroRanking), total, archivo);
+        fclose(archivo);
     }
 }

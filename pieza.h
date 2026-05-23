@@ -14,12 +14,17 @@
 #define SIN_MEM 1
 #define TAM_BLOQUE 10
 
+
+
 typedef struct
 {
     uint8_t forma[TAM][TAM];
     uint8_t color;
 } Pieza;
-
+typedef struct {
+    char nombre[7];
+    int puntaje;
+} RegistroRanking;
 
 
 int** crearMatriz(int filas, int columnas);
@@ -45,6 +50,10 @@ int eliminarFilasCompletas(int** tablero);
 int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida);
 
 void juego();
+
+
+
+void registrar_en_ranking(const char* nombre, int puntaje);
 
 extern Pieza piezaT;
 extern Pieza piezaI;
