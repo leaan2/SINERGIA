@@ -414,14 +414,22 @@
 	"GBT/gbt.h"
 	"pieza.h"
 
+<<<<<<< HEAD
+1779566760 source:c:\users\lean\desktop\tetris\sinergia\graficos.c
+=======
 1779487341 source:c:\users\lean\desktop\tetris\sinergia\graficos.c
+>>>>>>> main
 	<stdio.h>
 	<string.h>
 	"graficos.h"
 	"pieza.h"
 	"presentacion.h"
 
+<<<<<<< HEAD
+1779566716 c:\users\lean\desktop\tetris\sinergia\graficos.h
+=======
 1779485404 c:\users\lean\desktop\tetris\sinergia\graficos.h
+>>>>>>> main
 	"GBT/gbt.h"
 	"pieza.h"
 
@@ -447,11 +455,19 @@
 	<stdlib.h>
 	<stdint.h>
 
+<<<<<<< HEAD
+1779567200 c:\users\lean\desktop\tetris\sinergia\pieza.h
+	<stdint.h>
+	<time.h>
+
+1779567206 c:\users\lean\desktop\tetris\sinergia\presentacion.h
+=======
 1779483005 c:\users\lean\desktop\tetris\sinergia\pieza.h
 	<stdint.h>
 	<time.h>
 
 1779477591 c:\users\lean\desktop\tetris\sinergia\presentacion.h
+>>>>>>> main
 	"graficos.h"
 	"letras.h"
 	"GBT/gbt.h"
@@ -461,17 +477,17 @@
 1778601036 source:c:\users\lean\desktop\tetris\sinergia\letras.c
 	"graficos.h"
 
-1779471960 source:c:\users\lean\desktop\tetris\sinergia\main.c
+<<<<<<< HEAD
+1779567641 source:c:\users\lean\desktop\tetris\sinergia\main.c
 	<stdio.h>
 	<stdlib.h>
-	<string.h>
 	"graficos.h"
 	"GBT/gbt.h"
 	"letras.h"
 	"presentacion.h"
 	"pieza.h"
 
-1779487194 source:c:\users\lean\desktop\tetris\sinergia\pieza.c
+1779567603 source:c:\users\lean\desktop\tetris\sinergia\pieza.c
 	"pieza.h"
 	<stdio.h>
 	<stdlib.h>
@@ -482,7 +498,96 @@
 	"graficos.h"
 	"GBT/gbt.h"
 
+1779567364 source:c:\users\lean\desktop\tetris\sinergia\presentacion.c
+	<stdio.h>
+	<stdlib.h>
+	"presentacion.h"
+	"GBT/gbt.h"
+	"pieza.h"
+
+1779566760 source:c:\users\thiag\desktop\leasinergia\sinergia\graficos.c
+	<stdio.h>
+	<string.h>
+	"graficos.h"
+	"pieza.h"
+	"presentacion.h"
+
+1779569491 c:\users\thiag\desktop\leasinergia\sinergia\graficos.h
+	"GBT/gbt.h"
+	"pieza.h"
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
+
+1779567200 c:\users\thiag\desktop\leasinergia\sinergia\pieza.h
+	<stdint.h>
+	<time.h>
+
+1779567206 c:\users\thiag\desktop\leasinergia\sinergia\presentacion.h
+	"graficos.h"
+	"letras.h"
+	"GBT/gbt.h"
+
+1778601036 c:\users\thiag\desktop\leasinergia\sinergia\letras.h
+
+1778601036 source:c:\users\thiag\desktop\leasinergia\sinergia\letras.c
+	"graficos.h"
+
+1779567641 source:c:\users\thiag\desktop\leasinergia\sinergia\main.c
+	<stdio.h>
+	<stdlib.h>
+	"graficos.h"
+=======
+1779471960 source:c:\users\lean\desktop\tetris\sinergia\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"graficos.h"
+>>>>>>> main
+	"GBT/gbt.h"
+	"letras.h"
+	"presentacion.h"
+	"pieza.h"
+
+<<<<<<< HEAD
+1779567603 source:c:\users\thiag\desktop\leasinergia\sinergia\pieza.c
+=======
+1779487194 source:c:\users\lean\desktop\tetris\sinergia\pieza.c
+>>>>>>> main
+	"pieza.h"
+	<stdio.h>
+	<stdlib.h>
+	"GBT/gbt.h"
+	<time.h>
+	"presentacion.h"
+	"pieza.h"
+	"graficos.h"
+	"GBT/gbt.h"
+
+<<<<<<< HEAD
+1779567364 source:c:\users\thiag\desktop\leasinergia\sinergia\presentacion.c
+=======
 1779477522 source:c:\users\lean\desktop\tetris\sinergia\presentacion.c
+>>>>>>> main
 	<stdio.h>
 	<stdlib.h>
 	"presentacion.h"
