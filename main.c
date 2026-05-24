@@ -1,16 +1,15 @@
-//Integrantes
-//Thiago Romeo
-//Leandro Gonzalez
+//Integrantes//
+//Thiago Romeo//
+//Leandro Gonzalez//
 
-
+//Programa principal y argumentos a main
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "graficos.h"
 #include "GBT/gbt.h"
-#include "letras.h"
-#include "presentacion.h"
+#include "juego.h"
 #include "pieza.h"
 
 int main(int argc, char *argv[])
@@ -59,8 +58,9 @@ int main(int argc, char *argv[])
 
     // =========================
 
-    int ancho = (config.resolucion_tipo == 0) ? 320 : ANCHO_VENTANA;
-    int alto = (config.resolucion_tipo == 0) ? 200 : ALTO_VENTANA;
+    int ancho = 0;
+    int alto = 0;
+    obtener_resolucion_config(&config, &ancho, &alto);
 
     if (gbt_iniciar() != 0) {
         fprintf(stderr, "Error al iniciar GBT: %s\n", gbt_obtener_log());

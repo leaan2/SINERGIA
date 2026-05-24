@@ -1,8 +1,10 @@
+// Definiciones y funciones de los tetrominos://
+// estructuras, rotaciones y sistema de bolsa.//
+
 #ifndef PIEZA_H_INCLUDED
 #define PIEZA_H_INCLUDED
 
 #include <stdint.h>
-#include <time.h>
 
 #define ANCHO_VENTANA 640
 #define ALTO_VENTANA 480
@@ -13,49 +15,19 @@
 #define TAM 4
 #define SIN_MEM 1
 #define TAM_BLOQUE 10
-
-
+#define CANT_TETROMINOS 7
 
 typedef struct
 {
     uint8_t forma[TAM][TAM];
     uint8_t color;
 } Pieza;
-typedef struct {
-    char nombre[7];
-    int puntaje;
-} RegistroRanking;
 
-
-int** crearMatriz(int filas, int columnas);
-void destruirMatriz(int** m, int filas);
-void inicializarMatriz(int** m, int filas, int columnas);
-void mostrarMatriz(int** m, int filas, int columnas);
-
-void dibujarBloque(int x, int y, uint8_t color_original, int paleta_tipo);
-void dibujarPieza(Pieza p, int posX, int posY, int paleta_tipo);
-void dibujarTablero(int** tablero, int offsetX, int offsetY, int paleta_tipo);
-int colocarPieza(int** tablero, Pieza p, int fila, int columna, int cantpiezas);
-
-
-Pieza rotarPieza(Pieza pieza);
-int alturaPieza(Pieza p);
-
-int puedeColocarPieza(int** tablero, Pieza p, int fila, int columna);
-int moverPieza(int** tablero, Pieza p, int *fila, int *columna, int desplazamientoFilas, int desplazamientoColumnas);
-
-int filaCompleta(int** tablero, int fila);
-void eliminarFila(int** tablero, int fila);
-int eliminarFilasCompletas(int** tablero);
-int sistemaPuntuacion(int puntaje, int filasborradas, double tiempocaida);
-
-void juego(int escala_ventana, int resolucion_inicial);
-
-void registrar_en_ranking(const char* nombre, int puntaje);
-
-
-
-void registrar_en_ranking(const char* nombre, int puntaje);
+typedef struct
+{
+    Pieza piezas[CANT_TETROMINOS];
+    int posicion;
+} BolsaPiezas;
 
 extern Pieza piezaT;
 extern Pieza piezaI;
@@ -64,5 +36,10 @@ extern Pieza piezaJ;
 extern Pieza piezaS;
 extern Pieza piezaL;
 extern Pieza piezaZ;
+
+void mezclarBolsa(BolsaPiezas *bolsa);
+Pieza obtenerPiezaBolsa(BolsaPiezas *bolsa);
+Pieza rotarPieza(Pieza pieza);
+int alturaPieza(Pieza p);
 
 #endif // PIEZA_H_INCLUDED

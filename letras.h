@@ -1,3 +1,5 @@
+//Declaracion de letras//
+
 #ifndef LETRAS_H_INCLUDED
 #define LETRAS_H_INCLUDED
 

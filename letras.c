@@ -1,3 +1,5 @@
+//Letras//
+
 #include "graficos.h"
 // LETRAS 8x16 "TETRIS"
 // T
