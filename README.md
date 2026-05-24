@@ -1,6 +1,5 @@
 
 
-{0}------------------------------------------------
 
 # **TETRIS – SINERGIA (GUIA DE USO Y INSTALACION)**
 
@@ -33,7 +32,7 @@ Para poder ejecutar el programa debe copiar el archivo **gbt.dll** en la ruta do
 
 Para que el proyecto compile de forma organizada sin ningún tipo de error, los archivos deben estar distribuidos en la carpeta **SINERGIA** de la siguiente forma:
 
-{1}------------------------------------------------
+
 
 - bin/Debug/ → Carpeta donde se crea el ejecutable final (Tetris.exe) y archivos guardado
 - obj/Debug/ → Carpeta temporal donde el compilador guarda los archivos objeto (.o)
@@ -47,7 +46,7 @@ Para que el proyecto compile de forma organizada sin ningún tipo de error, los 
 - menu.c y menu.h → Menú principal, pausa, configuración, ranking y pantalla de game over.
 - pieza.c y pieza.h → Definición de tetrominos, rotación y sistema de bolsa de piezas.
 
-{2}------------------------------------------------
+
 
 - **presentacion.c** y **presentacion.h** → Pantalla inicial para ingresar el nombre del jugador.
 - **render.c** y **render.h** → Dibujo del tablero, piezas, interfaz y textos.
@@ -58,13 +57,9 @@ Para que el proyecto compile de forma organizada sin ningún tipo de error, los 
 
 Ya teniendo la biblioteca compilada, sobre el nombre del proyecto pulse click derecho **"Build"** y luego **"Run" (F9)**.
 
-![Screenshot of a C++ IDE showing the context menu for a project named 'Tetris'. The 'Build' option is highlighted, indicating the next step in the instructions. The background shows a code editor with a file named 'ranking.dat' open, containing lines like '1 // buscar', '2 // config', and '3 // ranking'.](de5063b406eb787334c453b07b7dcc52_img.jpg)
-
-Screenshot of a C++ IDE showing the context menu for a project named 'Tetris'. The 'Build' option is highlighted, indicating the next step in the instructions. The background shows a code editor with a file named 'ranking.dat' open, containing lines like '1 // buscar', '2 // config', and '3 // ranking'.
-
 Alternativamente, puede dirigirse a la siguiente ruta del archivo: **bin/Debug/** y ejecutar directamente el archivo **"Tetris.exe"**.
 
-{3}------------------------------------------------
+
 
 ### Menú principal:
 
@@ -99,7 +94,7 @@ Utilice las teclas **W/S** o las **Flechas Arriba/Abajo** para desplazarse verti
 
 ### Sistema de puntuación:
 
-{4}------------------------------------------------
+
 
 Suma de puntaje basado en:
 
