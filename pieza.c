@@ -81,6 +81,40 @@ Pieza piezaZ = {
     13
 };
 
+#define CANT_TETROMINOS 7
+
+typedef struct
+{
+    Pieza piezas[CANT_TETROMINOS];
+    int posicion;
+} BolsaPiezas;
+
+static void mezclarBolsa(BolsaPiezas *bolsa)
+{
+    Pieza piezasBase[CANT_TETROMINOS] = {piezaI, piezaO, piezaT, piezaJ, piezaL, piezaS, piezaZ};
+
+    for(int i = 0; i < CANT_TETROMINOS; i++)
+        bolsa->piezas[i] = piezasBase[i];
+
+    for(int i = CANT_TETROMINOS - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1);
+        Pieza aux = bolsa->piezas[i];
+        bolsa->piezas[i] = bolsa->piezas[j];
+        bolsa->piezas[j] = aux;
+    }
+
+    bolsa->posicion = 0;
+}
+
+static Pieza obtenerPiezaBolsa(BolsaPiezas *bolsa)
+{
+    if(bolsa->posicion >= CANT_TETROMINOS)
+        mezclarBolsa(bolsa);
+
+    return bolsa->piezas[bolsa->posicion++];
+}
+
 // --- Gestión de Memoria del Tablero ---
 
 int** crearMatriz(int filas, int columnas)
@@ -437,13 +471,13 @@ void juego(int escala_ventana, int resolucion_inicial)
     int fila = 0;
     int columna = 3;
 
-    int random = rand() % 7;
-    Pieza vector[7] = {piezaI, piezaO, piezaT, piezaJ, piezaL, piezaS, piezaZ};
+    BolsaPiezas bolsa;
+    mezclarBolsa(&bolsa);
 
     // El tablero se crea ANTES del bucle para que persista si pausamos y volvemos
     int** tablero = crearMatriz(ALTO_T, ANCHO_T);
     inicializarMatriz(tablero, ALTO_T, ANCHO_T);
-    Pieza piezaOrig = vector[random];
+    Pieza piezaOrig = obtenerPiezaBolsa(&bolsa);
 
     while(corriendo)
     {
@@ -646,8 +680,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                         puntaje = sistemaPuntuacion(puntaje, filasborradas, tiempocaida);
 
                         fila = 0; columna = 3;
-                        random = rand() % 7;
-                        piezaOrig = vector[random];
+                        piezaOrig = obtenerPiezaBolsa(&bolsa);
                         tocandoPiso = 0;
 
                         if(!puedeColocarPieza(tablero, piezaOrig, fila, columna)) {
@@ -1052,8 +1085,8 @@ void juego(int escala_ventana, int resolucion_inicial)
                     puntaje = 0;
                     cantpiezas = 0;
                     fila = 0; columna = 3;
-                    random = rand() % 7;
-                    piezaOrig = vector[random];
+                    mezclarBolsa(&bolsa);
+                    piezaOrig = obtenerPiezaBolsa(&bolsa);
 
                     if(temporizador) gbt_temporizador_destruir(temporizador);
                     if(temporizadorLock) gbt_temporizador_destruir(temporizadorLock);
