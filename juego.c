@@ -19,6 +19,8 @@
 #include "tablero.h"
 
 #define MAX_REGISTROS_RANKING 100
+#define PIEZAS_PARA_ACELERAR 10
+#define FACTOR_ACELERACION_CAIDA 0.97
 
 void obtener_resolucion_config(const Configuracion *config, int *ancho, int *alto)
 {
@@ -80,7 +82,7 @@ void cargar_configuracion(Configuracion *config)
         config->paleta_tipo = 0;
         config->resolucion_tipo = 1;
         config->escala_ventana = ESCALA_VENTANA;
-        config->velocidad_init = 0.5;
+        config->velocidad_init = 1.0;
         guardar_configuracion(config);
     }
 }
@@ -197,6 +199,7 @@ void juego(int escala_ventana, int resolucion_inicial)
 
     int filasborradas = 0;
     int puntaje = 0;
+    int piezasCaidas = 0;
     double tiempocaida = config.velocidad_init;
     uint8_t tocandoPiso = 0;
 
@@ -290,6 +293,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                     }
 
                     tiempocaida = config.velocidad_init;
+                    piezasCaidas = 0;
                     temporizador = gbt_temporizador_crear(tiempocaida);
                     temporizadorLock = gbt_temporizador_crear(0.2);
 
@@ -347,8 +351,20 @@ void juego(int escala_ventana, int resolucion_inicial)
                     if(gbt_temporizador_consumir(temporizadorLock))
                     {
                         colocarPieza(tablero, piezaOrig, fila, columna);
+                        piezasCaidas++;
                         filasborradas = eliminarFilasCompletas(tablero);
                         puntaje = sistemaPuntuacion(puntaje, filasborradas, tiempocaida);
+
+                        if(piezasCaidas % PIEZAS_PARA_ACELERAR == 0)
+                        {
+                            tiempocaida *= FACTOR_ACELERACION_CAIDA;
+
+                            if(temporizador)
+                            {
+                                gbt_temporizador_destruir(temporizador);
+                                temporizador = gbt_temporizador_crear(tiempocaida);
+                            }
+                        }
 
                         tocandoPiso = 0;
 
@@ -373,11 +389,11 @@ void juego(int escala_ventana, int resolucion_inicial)
                     tocandoPiso = 0;
                 }
 
-                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, tiempocaida, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 break;
 
             case estado_pausa:
-                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, tiempocaida, config.paleta_tipo, ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_ESCAPE)
                 {
@@ -415,7 +431,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                 break;
 
             case estado_configuracion:
-                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, tiempocaida, config.paleta_tipo, ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_w || tecla == GBTK_ARRIBA)
                     opcion_configuracion = (opcion_configuracion + 3) % 4;
@@ -475,7 +491,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                 break;
 
             case estado_ranking:
-                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, tiempocaida, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 dibujarRanking(ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_ESCAPE)
@@ -483,7 +499,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                 break;
 
             case estado_gameover:
-                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, tiempocaida, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 dibujarGameOver(puntaje, ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_ESPACIO || tecla == GBTK_ENTER)
@@ -492,6 +508,8 @@ void juego(int escala_ventana, int resolucion_inicial)
 
                     inicializarMatriz(tablero, ALTO_MATRIZ_T, ANCHO_T);
                     puntaje = 0;
+                    piezasCaidas = 0;
+                    tiempocaida = config.velocidad_init;
                     fila = 0;
                     columna = 3;
                     tocandoPiso = 0;

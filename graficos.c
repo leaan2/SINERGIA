@@ -81,11 +81,6 @@ void dibujarBorde(int x, int y, int w, int h, int color)
     Dibujar_rect(x + w - 1, y, 1, h, color);
 }
 
-void dibujarFondo(void)
-{
-    Dibujar_rect(0, 0, limite_ancho_dibujo, limite_alto_dibujo, 9);
-}
-
 void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], int color)
 {
     for(int i = 0; i < filas; i++)

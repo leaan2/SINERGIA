@@ -2,6 +2,8 @@
 
 #include "render.h"
 
+#include <stdio.h>
+
 #include "graficos.h"
 #include "letras.h"
 
@@ -110,7 +112,7 @@ static void dibujarVistaPrevia(Pieza pieza, int x, int y, int paleta_tipo)
 }
 
 void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int filaLogica, int colLogica,
-                     char* nombre, int longitud, int puntaje, int paleta_tipo,
+                     char* nombre, int longitud, int puntaje, double tiempocaida, int paleta_tipo,
                      int ancho_pantalla, int alto_pantalla)
 {
     int ancho_tablero_px = ANCHO_T * TAM_BLOQUE;
@@ -160,6 +162,13 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int
         dibujar_letra('0' + digito2, score_label_x + 8, score_valores_y, 12);
         dibujar_letra('0' + digito3, score_label_x + 16, score_valores_y, 12);
         dibujar_letra('0' + digito4, score_label_x + 24, score_valores_y, 12);
+
+        int caida_ms = (int)(tiempocaida * 1000.0 + 0.5);
+        char texto_caida[12];
+        snprintf(texto_caida, sizeof(texto_caida), "%dMS", caida_ms);
+
+        dibujar_texto("CAIDA", score_label_x, score_y + 32, 4);
+        dibujar_texto(texto_caida, score_label_x, score_y + 44, 14);
     }
 
     int nombre_x = offsetX + ancho_tablero_px + 20;

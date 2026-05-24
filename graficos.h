@@ -12,7 +12,6 @@ extern tGBT_ColorRGB paletaCGA[CANT_COLORES];
 void configurar_limites_dibujo(int ancho, int alto);
 void Dibujar_rect(int x, int y, int w, int h, int color);
 void dibujarBorde(int x, int y, int w, int h, int color);
-void dibujarFondo(void);
 void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], int color);
 void dibujar_linea(int x, int y, int h, int color);
 
