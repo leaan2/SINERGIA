@@ -1,3 +1,9 @@
+//Integrantes
+//Thiago Romeo
+//Leandro Gonzalez
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
