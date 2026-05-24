@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1779639382 source:c:\users\lean\desktop\tetris\sinergia\graficos.c
+1779658214 source:c:\users\lean\desktop\tetris\sinergia\graficos.c
 	"graficos.h"
 	"pieza.h"
 
@@ -33,9 +33,9 @@
 
 1779639382 c:\users\lean\desktop\tetris\sinergia\presentacion.h
 
-1779639382 c:\users\lean\desktop\tetris\sinergia\letras.h
+1779658214 c:\users\lean\desktop\tetris\sinergia\letras.h
 
-1779639382 source:c:\users\lean\desktop\tetris\sinergia\letras.c
+1779658075 source:c:\users\lean\desktop\tetris\sinergia\letras.c
 	"graficos.h"
 
 1779658075 source:c:\users\lean\desktop\tetris\sinergia\main.c
@@ -50,7 +50,7 @@
 	"pieza.h"
 	<stdlib.h>
 
-1779639382 source:c:\users\lean\desktop\tetris\sinergia\presentacion.c
+1779658075 source:c:\users\lean\desktop\tetris\sinergia\presentacion.c
 	"presentacion.h"
 	<stdio.h>
 	"GBT/gbt.h"
@@ -85,15 +85,16 @@
 1779658075 c:\users\lean\desktop\tetris\sinergia\tablero.h
 	"pieza.h"
 
-1779639382 source:c:\users\lean\desktop\tetris\sinergia\menu.c
+1779658075 source:c:\users\lean\desktop\tetris\sinergia\menu.c
 	"menu.h"
 	<stdio.h>
 	"graficos.h"
 	"letras.h"
 	"render.h"
 
-1779655618 source:c:\users\lean\desktop\tetris\sinergia\render.c
+1779658214 source:c:\users\lean\desktop\tetris\sinergia\render.c
 	"render.h"
+	<stdio.h>
 	"graficos.h"
 	"letras.h"
 
@@ -202,4 +203,26 @@
 1779655898 source:c:\users\thiag\desktop\leasinergia\sinergia\tablero.c
 	"tablero.h"
 	<stdlib.h>
+
+1778601036 c:\users\lean\desktop\tetris\sinergia\gbt_v2026.1c.01\include\gbt\gbt.h
+	"gbt_entrada.h"
+	"gbt_graficos.h"
+	"gbt_logger.h"
+	"gbt_temporizador.h"
+	"gbt_vector.h"
+
+1778601036 c:\users\lean\desktop\tetris\sinergia\gbt_v2026.1c.01\include\gbt\gbt_entrada.h
+	<stdint.h>
+
+1778601036 c:\users\lean\desktop\tetris\sinergia\gbt_v2026.1c.01\include\gbt\gbt_graficos.h
+	<stdint.h>
+
+1778601036 c:\users\lean\desktop\tetris\sinergia\gbt_v2026.1c.01\include\gbt\gbt_logger.h
+
+1778601036 c:\users\lean\desktop\tetris\sinergia\gbt_v2026.1c.01\include\gbt\gbt_temporizador.h
+	<stdint.h>
+
+1778601036 c:\users\lean\desktop\tetris\sinergia\gbt_v2026.1c.01\include\gbt\gbt_vector.h
+	<stdlib.h>
+	<stdint.h>
 
