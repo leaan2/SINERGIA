@@ -80,9 +80,8 @@
 	"pieza.h"
 	"presentacion.h"
 
-1779585585 c:\users\thiag\desktop\leasinergia\sinergia\graficos.h
+1779605639 c:\users\thiag\desktop\leasinergia\sinergia\graficos.h
 	"GBT/gbt.h"
-	"pieza.h"
 
 1779585586 c:\users\thiag\desktop\leasinergia\sinergia\libgbt-dist-main\release\gbt_v2026.1c.01\include\gbt\gbt.h
 	"gbt_entrada.h"
@@ -120,7 +119,7 @@
 1779585585 source:c:\users\thiag\desktop\leasinergia\sinergia\letras.c
 	"graficos.h"
 
-1779585585 source:c:\users\thiag\desktop\leasinergia\sinergia\main.c
+1779597828 source:c:\users\thiag\desktop\leasinergia\sinergia\main.c
 	<stdio.h>
 	<stdlib.h>
 	"graficos.h"
@@ -129,7 +128,7 @@
 	"presentacion.h"
 	"pieza.h"
 
-1779594040 source:c:\users\thiag\desktop\leasinergia\sinergia\pieza.c
+1779597828 source:c:\users\thiag\desktop\leasinergia\sinergia\pieza.c
 	"pieza.h"
 	<stdio.h>
 	<stdlib.h>
