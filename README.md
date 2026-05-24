@@ -36,7 +36,7 @@ Para que el proyecto compile de forma organizada sin ningún tipo de error, los 
 
 - bin/Debug/ → Carpeta donde se crea el ejecutable final (Tetris.exe) y archivos guardado
 - obj/Debug/ → Carpeta temporal donde el compilador guarda los archivos objeto (.o)
-- libgbt-dist-main/ → Carpeta interna que contiene la biblioteca gráfica.
+- GBT_v2026.1C.01/ → Carpeta interna que contiene la biblioteca gráfica.
 - Tetris.cbp → Archivo del Proyecto de Code::Blocks
 - Tetris.layout y Tetris.depend → Archivos automáticos de configuración de pantalla del IDE.
 - main.c → Punto de entrada del programa
