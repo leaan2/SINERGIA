@@ -33,12 +33,11 @@ int main(int argc, char *argv[])
     Configuracion config;
     cargar_configuracion(&config);
 
+    //Escala y resolucion
+
     int escala = ESCALA_VENTANA;
     int resolucion_inicial = -1;
 
-    // =========================
-    // ARGUMENTO 1 -> RESOLUCION
-    // =========================
 
     if(argc >= 2)
     {
@@ -60,10 +59,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    // =========================
-    // ARGUMENTO 2 -> ESCALA
-    // =========================
-
+//Escala
     if(argc >= 3)
     {
         escala = atoi(argv[2]);
@@ -93,6 +89,8 @@ int main(int argc, char *argv[])
     printf("Resolucion: %dx%d\n", ancho, alto);
     printf("Escala: %d\n", escala);
 
+
+    //inicializacion del juego
     juego(escala, resolucion_inicial);
 
     gbt_destruir_ventana();

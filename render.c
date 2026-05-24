@@ -181,8 +181,7 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int
     int preview_x = nombre_x;
     int preview_y = nombre_y + 28;
 
-    if(preview_x + TAM * TAM_BLOQUE + 8 < ancho_pantalla &&
-       preview_y + TAM * TAM_BLOQUE + 8 < alto_pantalla)
+    if(preview_x + TAM * TAM_BLOQUE + 8 < ancho_pantalla && preview_y + TAM * TAM_BLOQUE + 8 < alto_pantalla)
     {
         dibujar_texto("PROX", preview_x, preview_y - 12, 4);
         Dibujar_rect(preview_x - 4, preview_y - 4, TAM * TAM_BLOQUE + 8, TAM * TAM_BLOQUE + 8, 0);

@@ -2,6 +2,8 @@
 
 #include "graficos.h"
 // LETRAS 8x16 "TETRIS"
+
+
 // T
 
 int letra_T_16[16][8] = {

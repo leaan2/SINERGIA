@@ -3,6 +3,8 @@
 #include "pieza.h"
 #include <stdlib.h>
 
+//piezas del tetromino
+
 Pieza piezaT = {
     {
         {0,1,0,0},
@@ -72,6 +74,8 @@ Pieza piezaZ = {
     },
     13
 };
+
+//Funciones desarrolladas de las piezas
 
 void mezclarBolsa(BolsaPiezas *bolsa)
 {

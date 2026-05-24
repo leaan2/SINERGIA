@@ -38,6 +38,8 @@ extern Pieza piezaS;
 extern Pieza piezaL;
 extern Pieza piezaZ;
 
+//Funciones de las piezas
+
 void mezclarBolsa(BolsaPiezas *bolsa);
 Pieza obtenerPiezaBolsa(BolsaPiezas *bolsa);
 Pieza rotarPiezaIzquierda(Pieza pieza);
