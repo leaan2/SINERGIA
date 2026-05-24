@@ -4,6 +4,8 @@
 #include "graficos.h"
 #include "pieza.h"
 
+//Paleta de colores
+
 tGBT_ColorRGB paletaCGA[CANT_COLORES] = {
     {0x00, 0x00, 0x00},
     {0x00, 0x00, 0xAA},
@@ -25,6 +27,8 @@ tGBT_ColorRGB paletaCGA[CANT_COLORES] = {
 
 static int limite_ancho_dibujo = ANCHO_VENTANA;
 static int limite_alto_dibujo = ALTO_VENTANA;
+
+// dibujar pixeles
 
 void configurar_limites_dibujo(int ancho, int alto)
 {
@@ -81,10 +85,6 @@ void dibujarBorde(int x, int y, int w, int h, int color)
     Dibujar_rect(x + w - 1, y, 1, h, color);
 }
 
-void dibujarFondo(void)
-{
-    Dibujar_rect(0, 0, limite_ancho_dibujo, limite_alto_dibujo, 9);
-}
 
 void dibujar_matriz(int x, int y, int filas, int cols, int matriz[filas][cols], int color)
 {

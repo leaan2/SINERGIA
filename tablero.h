@@ -5,15 +5,16 @@
 
 #include "pieza.h"
 
+//Matriz
 int** crearMatriz(int filas, int columnas);
 void destruirMatriz(int** m, int filas);
 void inicializarMatriz(int** m, int filas, int columnas);
-
+//Pieza
 void colocarPieza(int** tablero, Pieza p, int fila, int columna);
 int puedeColocarPieza(int** tablero, Pieza p, int fila, int columna);
 int moverPieza(int** tablero, Pieza p, int *fila, int *columna, int desplazamientoFilas, int desplazamientoColumnas);
 int hayBloquesEnFilasOcultas(int** tablero);
-
+//Eliminarfila
 int filaCompleta(int** tablero, int fila);
 void eliminarFila(int** tablero, int fila);
 int eliminarFilasCompletas(int** tablero);

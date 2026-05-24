@@ -1,7 +1,6 @@
 //Dibujo de bloques, piezas, tablero, interfaz y texto/letras//
 
 #include "render.h"
-
 #include "graficos.h"
 #include "letras.h"
 
@@ -109,9 +108,7 @@ static void dibujarVistaPrevia(Pieza pieza, int x, int y, int paleta_tipo)
                 dibujarBloque(origen_x + j * TAM_BLOQUE, origen_y + i * TAM_BLOQUE, pieza.color, paleta_tipo);
 }
 
-void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int filaLogica, int colLogica,
-                     char* nombre, int longitud, int puntaje, int paleta_tipo,
-                     int ancho_pantalla, int alto_pantalla)
+void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int filaLogica, int colLogica, char* nombre, int longitud, int puntaje, int paleta_tipo, int ancho_pantalla, int alto_pantalla)
 {
     int ancho_tablero_px = ANCHO_T * TAM_BLOQUE;
     int alto_tablero_px = ALTO_T * TAM_BLOQUE;
@@ -172,8 +169,7 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int
     int preview_x = nombre_x;
     int preview_y = nombre_y + 28;
 
-    if(preview_x + TAM * TAM_BLOQUE + 8 < ancho_pantalla &&
-       preview_y + TAM * TAM_BLOQUE + 8 < alto_pantalla)
+    if(preview_x + TAM * TAM_BLOQUE + 8 < ancho_pantalla && preview_y + TAM * TAM_BLOQUE + 8 < alto_pantalla)
     {
         dibujar_texto("PROX", preview_x, preview_y - 12, 4);
         Dibujar_rect(preview_x - 4, preview_y - 4, TAM * TAM_BLOQUE + 8, TAM * TAM_BLOQUE + 8, 0);

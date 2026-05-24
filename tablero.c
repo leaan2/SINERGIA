@@ -2,7 +2,6 @@
 // creacion, destruccion, inicializacion,etc//
 
 #include "tablero.h"
-
 #include <stdlib.h>
 
 int** crearMatriz(int filas, int columnas)

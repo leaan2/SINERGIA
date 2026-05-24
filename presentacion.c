@@ -2,15 +2,15 @@
 //Pantalla//
 
 #include "presentacion.h"
-
 #include <stdio.h>
-
 #include "GBT/gbt.h"
 #include "graficos.h"
 #include "juego.h"
 #include "letras.h"
 #include "render.h"
 
+
+//Dibuja la presentacion de pantalla principal
 void dibujarPantalla(int ancho_p, int alto_p)
 {
     Dibujar_rect(0, 0, ancho_p, alto_p, 9);

@@ -5,9 +5,7 @@
 //Game over//
 
 #include "menu.h"
-
 #include <stdio.h>
-
 #include "graficos.h"
 #include "letras.h"
 #include "render.h"
