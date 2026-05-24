@@ -40,6 +40,8 @@ extern Pieza piezaZ;
 void mezclarBolsa(BolsaPiezas *bolsa);
 Pieza obtenerPiezaBolsa(BolsaPiezas *bolsa);
 Pieza rotarPieza(Pieza pieza);
+Pieza rotarPiezaIzquierda(Pieza pieza);
+Pieza rotarPiezaDerecha(Pieza pieza);
 int alturaPieza(Pieza p);
 
 #endif // PIEZA_H_INCLUDED

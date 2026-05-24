@@ -99,7 +99,21 @@ Pieza obtenerPiezaBolsa(BolsaPiezas *bolsa)
     return bolsa->piezas[bolsa->posicion++];
 }
 
-Pieza rotarPieza(Pieza pieza)
+Pieza rotarPiezaIzquierda(Pieza pieza)
+{
+    Pieza aux = (Pieza){0};
+    aux.color = pieza.color;
+
+    for(int i = 0; i < TAM; i++)
+    {
+        for(int j = 0; j < TAM; j++)
+            aux.forma[i][j] = pieza.forma[j][TAM - 1 - i];
+    }
+
+    return aux;
+}
+
+Pieza rotarPiezaDerecha(Pieza pieza)
 {
     Pieza aux = (Pieza){0};
     aux.color = pieza.color;
@@ -111,6 +125,11 @@ Pieza rotarPieza(Pieza pieza)
     }
 
     return aux;
+}
+
+Pieza rotarPieza(Pieza pieza)
+{
+    return rotarPiezaDerecha(pieza);
 }
 
 int alturaPieza(Pieza p)

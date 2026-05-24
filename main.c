@@ -1,6 +1,22 @@
-//Integrantes//
-//Thiago Romeo//
-//Leandro Gonzalez//
+/*
+INTEGRANTES:
+
+Apellido: Gonzalez, Leandro Alexis
+DNI: 46696080
+Usuario: leaan2
+Entrega: Si
+
+Apellido: Romeo, Thiago Sebastian
+DNI: 46935893
+Usuario: Thiago-Romeo
+Entrega: Si
+
+Apellido: Moscoso Rendon, Juan Diego
+DNI: 95472958
+Usuario: juandiegomoscoso
+Entrega: Si
+
+*/
 
 //Programa principal y argumentos a main
 

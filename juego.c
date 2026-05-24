@@ -314,16 +314,23 @@ void juego(int escala_ventana, int resolucion_inicial)
                 if(tecla == GBTK_d || tecla == GBTK_DERECHA)
                     moverPieza(tablero, piezaOrig, &fila, &columna, 0, 1);
 
-                if(tecla == GBTK_s || tecla == GBTK_ABAJO)
-                    if(moverPieza(tablero, piezaOrig, &fila, &columna, 1, 0))
-                        puntaje++;
-
                 if(tecla == GBTK_w || tecla == GBTK_ARRIBA)
                 {
-                    Pieza rotada = rotarPieza(piezaOrig);
+                    Pieza rotada = rotarPiezaIzquierda(piezaOrig);
                     if(puedeColocarPieza(tablero, rotada, fila, columna))
                         piezaOrig = rotada;
                 }
+
+                if(tecla == GBTK_s || tecla == GBTK_ABAJO)
+                {
+                    Pieza rotada = rotarPiezaDerecha(piezaOrig);
+                    if(puedeColocarPieza(tablero, rotada, fila, columna))
+                        piezaOrig = rotada;
+                }
+
+                if(gbt_tecla_sostenida(GBTK_f) || gbt_tecla_sostenida(GBTK_ESPACIO))
+                    if(moverPieza(tablero, piezaOrig, &fila, &columna, 1, 0))
+                        puntaje++;
 
                 if(gbt_temporizador_consumir(temporizador))
                     moverPieza(tablero, piezaOrig, &fila, &columna, 1, 0);
