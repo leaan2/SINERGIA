@@ -48,17 +48,9 @@ void dibujarBloque(int x, int y, uint8_t color_original, int paleta_tipo)
     Dibujar_rect(x + 2, y + 2, 2, 2, 15);
 }
 
-void dibujarPieza(Pieza p, int posX, int posY, int paleta_tipo)
-{
-    for(int i = 0; i < TAM; i++)
-        for(int j = 0; j < TAM; j++)
-            if(p.forma[i][j] == 1)
-                dibujarBloque(posX + j * TAM_BLOQUE, posY + i * TAM_BLOQUE, p.color, paleta_tipo);
-}
-
 void dibujarTablero(int** tablero, int offsetX, int offsetY, int paleta_tipo)
 {
-    for(int i = 0; i < ALTO_T; i++)
+    for(int i = FILAS_OCULTAS_T; i < ALTO_MATRIZ_T; i++)
     {
         for(int j = 0; j < ANCHO_T; j++)
         {
@@ -66,7 +58,7 @@ void dibujarTablero(int** tablero, int offsetX, int offsetY, int paleta_tipo)
             {
                 dibujarBloque(
                     offsetX + j * TAM_BLOQUE,
-                    offsetY + i * TAM_BLOQUE,
+                    offsetY + (i - FILAS_OCULTAS_T) * TAM_BLOQUE,
                     (uint8_t)tablero[i][j],
                     paleta_tipo
                 );
@@ -75,7 +67,49 @@ void dibujarTablero(int** tablero, int offsetX, int offsetY, int paleta_tipo)
     }
 }
 
-void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLogica,
+static void dibujarVistaPrevia(Pieza pieza, int x, int y, int paleta_tipo)
+{
+    int min_fila = TAM;
+    int max_fila = -1;
+    int min_columna = TAM;
+    int max_columna = -1;
+
+    for(int i = 0; i < TAM; i++)
+    {
+        for(int j = 0; j < TAM; j++)
+        {
+            if(pieza.forma[i][j] == 1)
+            {
+                if(i < min_fila)
+                    min_fila = i;
+
+                if(i > max_fila)
+                    max_fila = i;
+
+                if(j < min_columna)
+                    min_columna = j;
+
+                if(j > max_columna)
+                    max_columna = j;
+            }
+        }
+    }
+
+    if(max_fila < 0)
+        return;
+
+    int ancho_pieza = (max_columna - min_columna + 1) * TAM_BLOQUE;
+    int alto_pieza = (max_fila - min_fila + 1) * TAM_BLOQUE;
+    int origen_x = x + (TAM * TAM_BLOQUE - ancho_pieza) / 2 - min_columna * TAM_BLOQUE;
+    int origen_y = y + (TAM * TAM_BLOQUE - alto_pieza) / 2 - min_fila * TAM_BLOQUE;
+
+    for(int i = 0; i < TAM; i++)
+        for(int j = 0; j < TAM; j++)
+            if(pieza.forma[i][j] == 1)
+                dibujarBloque(origen_x + j * TAM_BLOQUE, origen_y + i * TAM_BLOQUE, pieza.color, paleta_tipo);
+}
+
+void dibujarInterfaz(int** tablero, Pieza piezaActual, Pieza piezaSiguiente, int filaLogica, int colLogica,
                      char* nombre, int longitud, int puntaje, int paleta_tipo,
                      int ancho_pantalla, int alto_pantalla)
 {
@@ -91,10 +125,23 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLo
 
     dibujarTablero(tablero, offsetX, offsetY, paleta_tipo);
 
-    int pieza_x = offsetX + (colLogica * TAM_BLOQUE);
-    int pieza_y = offsetY + (filaLogica * TAM_BLOQUE);
+    for(int i = 0; i < TAM; i++)
+    {
+        for(int j = 0; j < TAM; j++)
+        {
+            int fila_visible = filaLogica + i - FILAS_OCULTAS_T;
 
-    dibujarPieza(piezaActual, pieza_x, pieza_y, paleta_tipo);
+            if(piezaActual.forma[i][j] == 1 && fila_visible >= 0 && fila_visible < ALTO_T)
+            {
+                dibujarBloque(
+                    offsetX + (colLogica + j) * TAM_BLOQUE,
+                    offsetY + fila_visible * TAM_BLOQUE,
+                    piezaActual.color,
+                    paleta_tipo
+                );
+            }
+        }
+    }
 
     int score_label_x = offsetX - 70;
     int score_y = offsetY + 20;
@@ -121,6 +168,18 @@ void dibujarInterfaz(int** tablero, Pieza piezaActual, int filaLogica, int colLo
     if(nombre_x < ancho_pantalla - 40)
         for(int i = 0; i < longitud; i++)
             dibujar_letra(nombre[i], nombre_x + (i * 8), nombre_y, 14);
+
+    int preview_x = nombre_x;
+    int preview_y = nombre_y + 28;
+
+    if(preview_x + TAM * TAM_BLOQUE + 8 < ancho_pantalla &&
+       preview_y + TAM * TAM_BLOQUE + 8 < alto_pantalla)
+    {
+        dibujar_texto("PROX", preview_x, preview_y - 12, 4);
+        Dibujar_rect(preview_x - 4, preview_y - 4, TAM * TAM_BLOQUE + 8, TAM * TAM_BLOQUE + 8, 0);
+        dibujarBorde(preview_x - 4, preview_y - 4, TAM * TAM_BLOQUE + 8, TAM * TAM_BLOQUE + 8, 14);
+        dibujarVistaPrevia(piezaSiguiente, preview_x, preview_y, paleta_tipo);
+    }
 }
 
 void dibujar_letra(char c, int x, int y, int color)

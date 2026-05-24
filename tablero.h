@@ -12,6 +12,7 @@ void inicializarMatriz(int** m, int filas, int columnas);
 void colocarPieza(int** tablero, Pieza p, int fila, int columna);
 int puedeColocarPieza(int** tablero, Pieza p, int fila, int columna);
 int moverPieza(int** tablero, Pieza p, int *fila, int *columna, int desplazamientoFilas, int desplazamientoColumnas);
+int hayBloquesEnFilasOcultas(int** tablero);
 
 int filaCompleta(int** tablero, int fila);
 void eliminarFila(int** tablero, int fila);

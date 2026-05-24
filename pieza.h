@@ -11,6 +11,8 @@
 #define ESCALA_VENTANA 3
 
 #define ALTO_T 20
+#define FILAS_OCULTAS_T 4
+#define ALTO_MATRIZ_T (ALTO_T + FILAS_OCULTAS_T)
 #define ANCHO_T 10
 #define TAM 4
 #define TAM_BLOQUE 10

@@ -66,7 +66,7 @@ int puedeColocarPieza(int** tablero, Pieza p, int fila, int columna)
             int y = fila + i;
             int x = columna + j;
 
-            if(y < 0 || y >= ALTO_T)
+            if(y < 0 || y >= ALTO_MATRIZ_T)
                 return 0;
 
             if(x < 0 || x >= ANCHO_T)
@@ -95,6 +95,16 @@ int moverPieza(int** tablero, Pieza p, int *fila, int *columna, int df, int dc)
     return 0;
 }
 
+int hayBloquesEnFilasOcultas(int** tablero)
+{
+    for(int i = 0; i < FILAS_OCULTAS_T; i++)
+        for(int j = 0; j < ANCHO_T; j++)
+            if(tablero[i][j] != 0)
+                return 1;
+
+    return 0;
+}
+
 int filaCompleta(int** tablero, int fila)
 {
     for(int j = 0; j < ANCHO_T; j++)
@@ -118,7 +128,7 @@ int eliminarFilasCompletas(int** tablero)
 {
     int eliminadas = 0;
 
-    for(int i = ALTO_T - 1; i >= 0; i--)
+    for(int i = ALTO_MATRIZ_T - 1; i >= FILAS_OCULTAS_T; i--)
     {
         if(filaCompleta(tablero, i))
         {

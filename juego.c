@@ -212,9 +212,10 @@ void juego(int escala_ventana, int resolucion_inicial)
     BolsaPiezas bolsa;
     mezclarBolsa(&bolsa);
 
-    int** tablero = crearMatriz(ALTO_T, ANCHO_T);
-    inicializarMatriz(tablero, ALTO_T, ANCHO_T);
+    int** tablero = crearMatriz(ALTO_MATRIZ_T, ANCHO_T);
+    inicializarMatriz(tablero, ALTO_MATRIZ_T, ANCHO_T);
     Pieza piezaOrig = obtenerPiezaBolsa(&bolsa);
+    Pieza piezaSiguiente = obtenerPiezaBolsa(&bolsa);
 
     while(corriendo)
     {
@@ -349,13 +350,22 @@ void juego(int escala_ventana, int resolucion_inicial)
                         filasborradas = eliminarFilasCompletas(tablero);
                         puntaje = sistemaPuntuacion(puntaje, filasborradas, tiempocaida);
 
-                        fila = 0;
-                        columna = 3;
-                        piezaOrig = obtenerPiezaBolsa(&bolsa);
                         tocandoPiso = 0;
 
-                        if(!puedeColocarPieza(tablero, piezaOrig, fila, columna))
+                        if(hayBloquesEnFilasOcultas(tablero))
+                        {
                             estadoActual = estado_gameover;
+                        }
+                        else
+                        {
+                            fila = 0;
+                            columna = 3;
+                            piezaOrig = piezaSiguiente;
+                            piezaSiguiente = obtenerPiezaBolsa(&bolsa);
+
+                            if(!puedeColocarPieza(tablero, piezaOrig, fila, columna))
+                                estadoActual = estado_gameover;
+                        }
                     }
                 }
                 else
@@ -363,11 +373,11 @@ void juego(int escala_ventana, int resolucion_inicial)
                     tocandoPiso = 0;
                 }
 
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 break;
 
             case estado_pausa:
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_ESCAPE)
                 {
@@ -405,7 +415,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                 break;
 
             case estado_configuracion:
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_w || tecla == GBTK_ARRIBA)
                     opcion_configuracion = (opcion_configuracion + 3) % 4;
@@ -465,7 +475,7 @@ void juego(int escala_ventana, int resolucion_inicial)
                 break;
 
             case estado_ranking:
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 dibujarRanking(ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_ESCAPE)
@@ -473,19 +483,21 @@ void juego(int escala_ventana, int resolucion_inicial)
                 break;
 
             case estado_gameover:
-                dibujarInterfaz(tablero, piezaOrig, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
+                dibujarInterfaz(tablero, piezaOrig, piezaSiguiente, fila, columna, nombre, longitud, puntaje, config.paleta_tipo, ancho_pantalla, alto_pantalla);
                 dibujarGameOver(puntaje, ancho_pantalla, alto_pantalla);
 
                 if(tecla == GBTK_ESPACIO || tecla == GBTK_ENTER)
                 {
                     registrar_en_ranking(nombre, puntaje);
 
-                    inicializarMatriz(tablero, ALTO_T, ANCHO_T);
+                    inicializarMatriz(tablero, ALTO_MATRIZ_T, ANCHO_T);
                     puntaje = 0;
                     fila = 0;
                     columna = 3;
+                    tocandoPiso = 0;
                     mezclarBolsa(&bolsa);
                     piezaOrig = obtenerPiezaBolsa(&bolsa);
+                    piezaSiguiente = obtenerPiezaBolsa(&bolsa);
 
                     if(temporizador)
                         gbt_temporizador_destruir(temporizador);
@@ -505,7 +517,7 @@ void juego(int escala_ventana, int resolucion_inicial)
         gbt_esperar(20);
     }
 
-    destruirMatriz(tablero, ALTO_T);
+    destruirMatriz(tablero, ALTO_MATRIZ_T);
 
     if(temporizador)
         gbt_temporizador_destruir(temporizador);

@@ -28,7 +28,7 @@
 	<stdlib.h>
 	<stdint.h>
 
-1779654291 c:\users\lean\desktop\tetris\sinergia\pieza.h
+1779655292 c:\users\lean\desktop\tetris\sinergia\pieza.h
 	<stdint.h>
 
 1779639382 c:\users\lean\desktop\tetris\sinergia\presentacion.h
@@ -46,7 +46,7 @@
 	"juego.h"
 	"pieza.h"
 
-1779651316 source:c:\users\lean\desktop\tetris\sinergia\pieza.c
+1779654295 source:c:\users\lean\desktop\tetris\sinergia\pieza.c
 	"pieza.h"
 	<stdlib.h>
 
@@ -79,10 +79,10 @@
 1779639382 c:\users\lean\desktop\tetris\sinergia\menu.h
 	"juego.h"
 
-1779639382 c:\users\lean\desktop\tetris\sinergia\render.h
+1779655600 c:\users\lean\desktop\tetris\sinergia\render.h
 	"pieza.h"
 
-1779639382 c:\users\lean\desktop\tetris\sinergia\tablero.h
+1779655296 c:\users\lean\desktop\tetris\sinergia\tablero.h
 	"pieza.h"
 
 1779639382 source:c:\users\lean\desktop\tetris\sinergia\menu.c
@@ -97,8 +97,7 @@
 	"graficos.h"
 	"letras.h"
 
-1779639382 source:c:\users\lean\desktop\tetris\sinergia\tablero.c
+1779655302 source:c:\users\lean\desktop\tetris\sinergia\tablero.c
 	"tablero.h"
-	<stdio.h>
 	<stdlib.h>
 
