@@ -126,20 +126,3 @@ Pieza rotarPiezaDerecha(Pieza pieza)
 
     return aux;
 }
-
-Pieza rotarPieza(Pieza pieza)
-{
-    return rotarPiezaDerecha(pieza);
-}
-
-int alturaPieza(Pieza p)
-{
-    int max = 0;
-
-    for(int i = 0; i < TAM; i++)
-        for(int j = 0; j < TAM; j++)
-            if(p.forma[i][j] == 1)
-                max = i + 1;
-
-    return max;
-}

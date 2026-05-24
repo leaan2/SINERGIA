@@ -3,7 +3,6 @@
 
 #include "tablero.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 int** crearMatriz(int filas, int columnas)
@@ -43,18 +42,7 @@ void inicializarMatriz(int** m, int filas, int columnas)
             m[i][j] = 0;
 }
 
-void mostrarMatriz(int** m, int filas, int columnas)
-{
-    for(int i = 0; i < filas; i++)
-    {
-        for(int j = 0; j < columnas; j++)
-            printf("[%02d]", m[i][j]);
-
-        putchar('\n');
-    }
-}
-
-int colocarPieza(int** tablero, Pieza p, int fila, int columna, int cantpiezas)
+void colocarPieza(int** tablero, Pieza p, int fila, int columna)
 {
     for(int i = 0; i < TAM; i++)
     {
@@ -64,8 +52,6 @@ int colocarPieza(int** tablero, Pieza p, int fila, int columna, int cantpiezas)
                 tablero[fila + i][columna + j] = p.color;
         }
     }
-
-    return cantpiezas + 1;
 }
 
 int puedeColocarPieza(int** tablero, Pieza p, int fila, int columna)

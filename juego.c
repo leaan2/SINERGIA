@@ -197,7 +197,6 @@ void juego(int escala_ventana, int resolucion_inicial)
 
     int filasborradas = 0;
     int puntaje = 0;
-    int cantpiezas = 0;
     double tiempocaida = config.velocidad_init;
     uint8_t tocandoPiso = 0;
 
@@ -346,7 +345,7 @@ void juego(int escala_ventana, int resolucion_inicial)
 
                     if(gbt_temporizador_consumir(temporizadorLock))
                     {
-                        cantpiezas = colocarPieza(tablero, piezaOrig, fila, columna, cantpiezas);
+                        colocarPieza(tablero, piezaOrig, fila, columna);
                         filasborradas = eliminarFilasCompletas(tablero);
                         puntaje = sistemaPuntuacion(puntaje, filasborradas, tiempocaida);
 
@@ -483,7 +482,6 @@ void juego(int escala_ventana, int resolucion_inicial)
 
                     inicializarMatriz(tablero, ALTO_T, ANCHO_T);
                     puntaje = 0;
-                    cantpiezas = 0;
                     fila = 0;
                     columna = 3;
                     mezclarBolsa(&bolsa);

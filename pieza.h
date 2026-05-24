@@ -13,7 +13,6 @@
 #define ALTO_T 20
 #define ANCHO_T 10
 #define TAM 4
-#define SIN_MEM 1
 #define TAM_BLOQUE 10
 #define CANT_TETROMINOS 7
 
@@ -39,9 +38,7 @@ extern Pieza piezaZ;
 
 void mezclarBolsa(BolsaPiezas *bolsa);
 Pieza obtenerPiezaBolsa(BolsaPiezas *bolsa);
-Pieza rotarPieza(Pieza pieza);
 Pieza rotarPiezaIzquierda(Pieza pieza);
 Pieza rotarPiezaDerecha(Pieza pieza);
-int alturaPieza(Pieza p);
 
 #endif // PIEZA_H_INCLUDED
