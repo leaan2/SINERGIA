@@ -40,14 +40,23 @@ Este documento contiene toda la información necesaria para la instalación, con
 Para que el proyecto compile de forma organizada sin ningún tipo de error, los archivos deben estar distribuidos en la carpeta **donde se creó su proyecto** de la siguiente forma:
 
 ■ main.c → Punto de entrada del programa
+
 ■ graficos.c y graficos.h → Primitivas gráficas, paleta CGA/VGA y funciones de dibujo sobre GBT.
+
 ■ juego.c y juego.h → Bucle principal, estados del juego, configuración, puntuación y ranking.
+
 ■ letras.c y letras.h → Mapas de píxeles para letras, números y símbolos.
+
 ■ menu.c y menu.h → Menú principal, pausa, configuración, ranking y pantalla de game over.
+
 ■ pieza.c y pieza.h → Definición de tetrominos, rotación y sistema de bolsa de piezas.
+
 ■ presentacion.c y presentacion.h → Pantalla inicial para ingresar el nombre del jugador.
+
 ■ render.c y render.h → Dibujo del tablero, piezas, interfaz y textos.
+
 ■ tablero.c y tablero.h → Matriz del tablero, colisiones, movimiento y eliminación de filas.
+
 
 ## 4. GUÍA DE USO
 
